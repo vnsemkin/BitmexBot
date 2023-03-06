@@ -1,0 +1,75 @@
+//        WebSocketClient client = new StandardWebSocketClient();
+//        WebSocketStompClient stompClient = new WebSocketStompClient(client);
+//        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+//        StompSessionHandler sessionHandler = new WSHandler(clientData);
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("wsStart");
+//        stompClient.connect(URL, sessionHandler);
+//        System.out.println("wsStop");
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+        //POST 3 orders
+//        for (int i = 1; i < clientData.getLevel() + 1; i++) {
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//            Order order = new Order();
+//            order.setSymbol("XBTUSD");
+//            order.setSide("Buy");
+//            order.setPrice(clientData.getLastBuy() - clientData.getStep() * i);
+//            order.setOrderQty(clientData.getCoefficient());
+//            authData = new APIAuthDataService()
+//                    .getAPIAutData(clientData, String.valueOf(HttpMethod.POST), BitmexEndpoints.ORDER,
+//                            json.writeToString(order));
+//            bitmexFiegnClient.postOrder(String.valueOf(authData.apiExpires())
+//                    , authData.apikey(),
+//                    authData.apiSignature(), order);
+//        }
+        //Array
+//String data = orderID             "orderID":"bcb91953-91f5-41f6-bcb7-c16ea43eb5ae"
+//String symbol = XBTUSD            "symbol":"XBTUSD"
+//String side = Buy, Sell           "side":"Buy"
+//long orderQty =                    orderQty":100
+//double price =                    "price":20800.0
+//String ordStatus     "New"
+//String ordType                    "ordType":"Limit"
+//                while (true) {
+//                    if (!Objects.equals(wsHandler.getMessage(), "pong")) {
+//                        WSOrderStatus wsOrderStatus = (WSOrderStatus) json.readToObject(wsHandler.getMessage(), WSOrderStatus.class);
+//                        StringBuilder sb = new StringBuilder(wsOrderStatus.toString());
+//                        if (wsOrderStatus.getAction() == null) {
+//                            sb.setLength(0);
+//                        } else {
+//                            if (cache == null) {
+//                                cache = new StringBuffer(sb);
+//                                sb.setLength(0);
+//                            } else if (cache.length() != sb.length()) {
+//                                cache = new StringBuffer(sb);
+//                                sb.setLength(0);
+//                                wsOrderStatus.getOrder().forEach(ord -> System.out.println(wsOrderStatus.getAction()
+//                                        + ": Side " + ord.getSide()
+//                                        + ", Status " + ord.getOrdStatus()
+//                                        + ", id: " + ord.getId()
+//                                ));
+//                            } else {
+//                                sb.setLength(0);
+//                            }
+//                        }
+//                    }
+//                    Thread.sleep(1000);
+//                }
+//
+//        throw new RuntimeException(e);
+//    }
+//} catch(InterruptedException|ExecutionException e){
+//        e.printStackTrace();
+//        }
