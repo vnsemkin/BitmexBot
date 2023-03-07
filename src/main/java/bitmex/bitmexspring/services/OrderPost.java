@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderPost {
     private APIAuthData authData;
-    public ClientData clientData;
+    private ClientData clientData;
     private final JsonController json;
     private final BitmexFiegnClient bitmexFiegnClient;
 
@@ -23,6 +23,10 @@ public class OrderPost {
     public OrderPost(BitmexFiegnClient bitmexFiegnClient, JsonController json) {
         this.bitmexFiegnClient = bitmexFiegnClient;
         this.json = json;
+    }
+
+    public void setClientData(ClientData clientData) {
+        this.clientData = clientData;
     }
 
     public void initialBuy() {

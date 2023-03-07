@@ -1,6 +1,7 @@
 package bitmex.bitmexspring.services;
 
 import bitmex.bitmexspring.controllers.json.JsonController;
+import bitmex.bitmexspring.models.bitmex.ClientData;
 import bitmex.bitmexspring.models.bitmex.WSOrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,16 @@ public class WSHandler extends TextWebSocketHandler {
     private final JsonController json;
     private WSOrderStatus wsOrderStatus;
     private final OrderPost orderPost;
+    private ClientData clientData;
 
     @Autowired
     public WSHandler(JsonController json, OrderPost orderPost) {
         this.json = json;
         this.orderPost = orderPost;
+    }
+
+    public void setClientData(ClientData clientData) {
+        this.clientData = clientData;
     }
 
     @Override
@@ -42,11 +48,13 @@ public class WSHandler extends TextWebSocketHandler {
                     ));
                     if (wsOrderStatus.getOrder().get(0).getSide().equals("Buy")
                             && wsOrderStatus.getOrder().get(0).getOrdStatus().equals("Filled")) {
-                        orderPost.clientData.setFilledPrice(wsOrderStatus.getOrder().get(0).getPrice());
+                        clientData.setFilledPrice(wsOrderStatus.getOrder().get(0).getPrice());
+                        orderPost.setClientData(clientData);
                         orderPost.sell();
                     } else if (wsOrderStatus.getOrder().get(0).getSide().equals("Sell")
                             && wsOrderStatus.getOrder().get(0).getOrdStatus().equals("Filled")) {
-                        orderPost.clientData.setFilledPrice(wsOrderStatus.getOrder().get(0).getPrice());
+                        clientData.setFilledPrice(wsOrderStatus.getOrder().get(0).getPrice());
+                        orderPost.setClientData(clientData);
                         orderPost.buy();
                     }
                 }
