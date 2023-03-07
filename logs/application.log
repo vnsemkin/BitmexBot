@@ -379,3 +379,71 @@ java.lang.NullPointerException: Cannot invoke "bitmex.bitmexspring.models.bitmex
 2023-03-07T12:08:34.939+02:00  INFO 31827 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2023-03-07T12:08:34.940+02:00  INFO 31827 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2023-03-07T12:08:34.941+02:00  INFO 31827 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2023-03-07T12:17:15.714+02:00  INFO 33368 --- [restartedMain] b.bitmexspring.BitmexSpringApplication   : Starting BitmexSpringApplication using Java 18.0.2-ea with PID 33368 (/home/normat/IdeaProjects/BitmexSpring/target/classes started by normat in /home/normat/IdeaProjects/BitmexSpring)
+2023-03-07T12:17:15.715+02:00  INFO 33368 --- [restartedMain] b.bitmexspring.BitmexSpringApplication   : No active profile set, falling back to 1 default profile: "default"
+2023-03-07T12:17:15.749+02:00  INFO 33368 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-03-07T12:17:15.750+02:00  INFO 33368 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-03-07T12:17:16.258+02:00  INFO 33368 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=e2d78ef5-6825-305f-a5cd-e0a8d23dbe8a
+2023-03-07T12:17:16.327+02:00 ERROR 33368 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : An incompatible version [1.2.31] of the Apache Tomcat Native library is installed, while Tomcat requires version [1.2.34]
+2023-03-07T12:17:16.647+02:00  INFO 33368 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-03-07T12:17:16.655+02:00  INFO 33368 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-03-07T12:17:16.655+02:00  INFO 33368 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-03-07T12:17:16.693+02:00  INFO 33368 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-03-07T12:17:16.693+02:00  INFO 33368 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 943 ms
+2023-03-07T12:17:16.825+02:00  INFO 33368 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-03-07T12:17:17.349+02:00  INFO 33368 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-07T12:17:17.469+02:00  INFO 33368 --- [restartedMain] b.bitmexspring.BitmexSpringApplication   : Started BitmexSpringApplication in 2.108 seconds (process running for 2.529)
+2023-03-07T12:17:23.025+02:00  INFO 33368 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-03-07T12:17:23.026+02:00  INFO 33368 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-03-07T12:17:23.027+02:00  INFO 33368 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2023-03-07T12:19:42.428+02:00  INFO 33845 --- [restartedMain] b.bitmexspring.BitmexSpringApplication   : Starting BitmexSpringApplication using Java 18.0.2-ea with PID 33845 (/home/normat/IdeaProjects/BitmexSpring/target/classes started by normat in /home/normat/IdeaProjects/BitmexSpring)
+2023-03-07T12:19:42.430+02:00  INFO 33845 --- [restartedMain] b.bitmexspring.BitmexSpringApplication   : No active profile set, falling back to 1 default profile: "default"
+2023-03-07T12:19:42.465+02:00  INFO 33845 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-03-07T12:19:42.465+02:00  INFO 33845 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-03-07T12:19:42.967+02:00  INFO 33845 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=e2d78ef5-6825-305f-a5cd-e0a8d23dbe8a
+2023-03-07T12:19:43.039+02:00 ERROR 33845 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : An incompatible version [1.2.31] of the Apache Tomcat Native library is installed, while Tomcat requires version [1.2.34]
+2023-03-07T12:19:43.373+02:00  INFO 33845 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-03-07T12:19:43.380+02:00  INFO 33845 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-03-07T12:19:43.381+02:00  INFO 33845 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-03-07T12:19:43.419+02:00  INFO 33845 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-03-07T12:19:43.419+02:00  INFO 33845 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 954 ms
+2023-03-07T12:19:43.532+02:00  INFO 33845 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-03-07T12:19:44.024+02:00  INFO 33845 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-07T12:19:44.129+02:00  INFO 33845 --- [restartedMain] b.bitmexspring.BitmexSpringApplication   : Started BitmexSpringApplication in 2.045 seconds (process running for 2.45)
+2023-03-07T12:19:49.770+02:00  INFO 33845 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-03-07T12:19:49.771+02:00  INFO 33845 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-03-07T12:19:49.772+02:00  INFO 33845 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2023-03-07T12:26:25.031+02:00  INFO 35032 --- [restartedMain] b.bitmexspring.BitmexSpringApplication   : Starting BitmexSpringApplication using Java 18.0.2-ea with PID 35032 (/home/normat/IdeaProjects/BitmexSpring/target/classes started by normat in /home/normat/IdeaProjects/BitmexSpring)
+2023-03-07T12:26:25.032+02:00  INFO 35032 --- [restartedMain] b.bitmexspring.BitmexSpringApplication   : No active profile set, falling back to 1 default profile: "default"
+2023-03-07T12:26:25.048+02:00  INFO 35032 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-03-07T12:26:25.048+02:00  INFO 35032 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-03-07T12:26:25.296+02:00  INFO 35032 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=e2d78ef5-6825-305f-a5cd-e0a8d23dbe8a
+2023-03-07T12:26:25.330+02:00 ERROR 35032 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : An incompatible version [1.2.31] of the Apache Tomcat Native library is installed, while Tomcat requires version [1.2.34]
+2023-03-07T12:26:25.497+02:00  INFO 35032 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-03-07T12:26:25.501+02:00  INFO 35032 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-03-07T12:26:25.501+02:00  INFO 35032 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-03-07T12:26:25.522+02:00  INFO 35032 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-03-07T12:26:25.522+02:00  INFO 35032 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 474 ms
+2023-03-07T12:26:25.583+02:00  INFO 35032 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-03-07T12:26:25.970+02:00  INFO 35032 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-07T12:26:26.062+02:00  INFO 35032 --- [restartedMain] b.bitmexspring.BitmexSpringApplication   : Started BitmexSpringApplication in 1.313 seconds (process running for 1.546)
+2023-03-07T12:26:29.282+02:00  INFO 35032 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-03-07T12:26:29.283+02:00  INFO 35032 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-03-07T12:26:29.283+02:00  INFO 35032 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2023-03-07T12:29:52.618+02:00  INFO 35790 --- [restartedMain] b.bitmexspring.BitmexSpringApplication   : Starting BitmexSpringApplication using Java 18.0.2-ea with PID 35790 (/home/normat/IdeaProjects/BitmexSpring/target/classes started by normat in /home/normat/IdeaProjects/BitmexSpring)
+2023-03-07T12:29:52.619+02:00  INFO 35790 --- [restartedMain] b.bitmexspring.BitmexSpringApplication   : No active profile set, falling back to 1 default profile: "default"
+2023-03-07T12:29:52.635+02:00  INFO 35790 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-03-07T12:29:52.635+02:00  INFO 35790 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-03-07T12:29:52.886+02:00  INFO 35790 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=e2d78ef5-6825-305f-a5cd-e0a8d23dbe8a
+2023-03-07T12:29:52.923+02:00 ERROR 35790 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : An incompatible version [1.2.31] of the Apache Tomcat Native library is installed, while Tomcat requires version [1.2.34]
+2023-03-07T12:29:53.094+02:00  INFO 35790 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-03-07T12:29:53.099+02:00  INFO 35790 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-03-07T12:29:53.099+02:00  INFO 35790 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-03-07T12:29:53.119+02:00  INFO 35790 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-03-07T12:29:53.119+02:00  INFO 35790 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 484 ms
+2023-03-07T12:29:53.178+02:00  INFO 35790 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-03-07T12:29:53.578+02:00  INFO 35790 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-07T12:29:53.687+02:00  INFO 35790 --- [restartedMain] b.bitmexspring.BitmexSpringApplication   : Started BitmexSpringApplication in 1.373 seconds (process running for 1.586)
+2023-03-07T12:29:58.209+02:00  INFO 35790 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-03-07T12:29:58.209+02:00  INFO 35790 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-03-07T12:29:58.210+02:00  INFO 35790 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms

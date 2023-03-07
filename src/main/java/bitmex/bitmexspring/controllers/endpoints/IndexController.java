@@ -15,48 +15,43 @@ import java.util.List;
 
 @Controller
 public class IndexController {
-    private ClientData clientData;
-    private final BitmexBot bitmexBot;
-    private final OrderPost orderPost;
     private final UserInfo userInfo;
     private final BotService botService;
     private List<BitmexBot> botList;
 
     @Autowired
     public IndexController(UserInfo userInfo,
-                           BitmexBot bitmexBot,
-                           OrderPost orderPost, BotService botService) {
+                           BotService botService) {
         this.botService = botService;
         this.userInfo = userInfo;
-        this.bitmexBot = bitmexBot;
-        this.orderPost = orderPost;
+
     }
 
     @GetMapping("/")
-    public String getHandler() {
+    public String getHandler(Model model) {
+        botList = botService.getBotList();
+        model.addAttribute("botList", botList);
+
         return "home";
     }
 
     @PostMapping("/")
     public String postHandler(ClientData clientData,//Spring parsing parameters and create Object ClientData
                               Model model) {
-        this.clientData = clientData;
-        if (clientData.getKey() != null && clientData.getSecret() != null) {
-            /*Only for test purpose*/
-            clientData.setKey("YeOJnM7jXJKV8pf5dYMalLs0");
-            clientData.setSecret("He6LhcpmH9oKNqjYu2RaxqsoutyGf2-0VUVPbIdiGCKOx_j2");
-            /* only for test purpose */
+        /*Only for test purpose*/
+        clientData.setKey("YeOJnM7jXJKV8pf5dYMalLs0");
+        clientData.setSecret("He6LhcpmH9oKNqjYu2RaxqsoutyGf2-0VUVPbIdiGCKOx_j2");
+        /* only for test purpose */
 
-            //Get User info
-            clientData = userInfo.getUserInfo(clientData);
-            //Start new bot
-            botList = botService.call(clientData);
+        //Get User info
+        clientData = userInfo.getUserInfo(clientData);
+        //Start new bot
+        botList = botService.call(clientData);
 
-            //for testing
-            botList.forEach(System.out::println);
+        //for testing
+        botList.forEach(System.out::println);
 
-            model.addAttribute("botList", botList);
-        }
+        model.addAttribute("botList", botList);
         return "home";
     }
 }

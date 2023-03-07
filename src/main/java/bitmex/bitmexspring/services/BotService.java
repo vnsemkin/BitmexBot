@@ -14,7 +14,6 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -36,16 +35,20 @@ public class BotService {
         this.wsHandler = wsHandler;
     }
 
+    public List<BitmexBot> getBotList() {
+        return botList;
+    }
+
     public List<BitmexBot> call(ClientData clientData) {
         this.clientData = clientData;
-        if(botList.size()==0){
+        if (botList.size() == 0) {
             wsStart();
         }
         botStart();
         return botList;
     }
 
-    private void botStart(){
+    private void botStart() {
         bitmexBot.setId(botList.size() + 1);
         botList.add(bitmexBot);
         startNewBot(clientData);
