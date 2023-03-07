@@ -56,15 +56,18 @@ public class IndexController {
             botList = botService.call(clientData);
 //            botList = botService.startNewBot(clientData);
             botList.forEach(System.out::println);
-            model.addAllAttributes(Map.of(
-                    "key", clientData.getKey(),
-                    "secret", clientData.getSecret(),
-                    "userName", clientData.getUserName(),
-                    "userEmail", clientData.getUserEmail(),
-                    "userAccount", clientData.getUserAccount(),
-                    "userCurrency", clientData.getUserCurrency(),
-                    "lastSellPrice", clientData.getLastSell(),
-                    "lastBuyPrice", clientData.getLastBuy()));
+
+            model.addAttribute("botList", botList);
+//            botList.get(0).getClientData().getKey()
+//            model.addAllAttributes(Map.of(
+//                    "key", clientData.getKey(),
+//                    "secret", clientData.getSecret(),
+//                    "userName", clientData.getUserName(),
+//                    "userEmail", clientData.getUserEmail(),
+//                    "userAccount", clientData.getUserAccount(),
+//                    "userCurrency", clientData.getUserCurrency(),
+//                    "lastSellPrice", clientData.getLastSell(),
+//                    "lastBuyPrice", clientData.getLastBuy()));
 
             /*
             Starting Web Socket
