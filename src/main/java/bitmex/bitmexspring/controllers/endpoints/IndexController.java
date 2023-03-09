@@ -34,7 +34,6 @@ public class IndexController {
     public String getHandler(Model model) {
         botList = botService.getBotList();
         model.addAttribute("botList", botList);
-
         return "home";
     }
 

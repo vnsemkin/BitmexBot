@@ -7,8 +7,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 @Scope("prototype")
@@ -27,7 +27,7 @@ public class BitmexBot implements Runnable {
     @Autowired
     public BitmexBot(OrderPost orderPost) {
         this.orderPost = orderPost;
-        orderList = new ArrayList<>();
+        orderList = new CopyOnWriteArrayList<>();
     }
 
     public void setClientData(ClientData clientData) {
