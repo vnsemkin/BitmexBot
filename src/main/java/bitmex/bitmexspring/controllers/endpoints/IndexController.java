@@ -9,8 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 
 @Controller
 public class IndexController {
@@ -31,9 +35,19 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public String getHandler(Model model) {
+    public String getHandler(@RequestParam( value = "id", defaultValue = "-1") String id,  Model model) {
         botList = botService.getBotList();
+        if (Objects.nonNull(id)) {
+            for (BitmexBot bot:botList){
+                if(id.equals(String.valueOf(bot.getId()))){
+                    ExecutorService executor = bot.getExecutor();
+                    executor.shutdown();
+                    botList.remove(bot);
+                }
+            }
+        }
         model.addAttribute("botList", botList);
+        model.addAttribute("id", null);
         return "home";
     }
 

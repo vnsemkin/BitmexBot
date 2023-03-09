@@ -13,7 +13,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
@@ -62,6 +61,7 @@ public class BotService {
 
     public void startNewBot() {
         ExecutorService executorService = Executors.newFixedThreadPool(1);
+        bitmexBot.setExecutor(executorService);
         executorService.execute(bitmexBot);
     }
 
