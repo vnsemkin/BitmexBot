@@ -1,7 +1,6 @@
 package bitmex.bitmexspring.controllers.endpoints;
 
 import bitmex.bitmexspring.services.BotService;
-import bitmex.bitmexspring.services.OrderPost;
 import bitmex.bitmexspring.services.BitmexBot;
 import bitmex.bitmexspring.models.bitmex.ClientData;
 import bitmex.bitmexspring.services.UserInfo;
@@ -27,6 +26,10 @@ public class IndexController {
 
     }
 
+    public List<BitmexBot> getBotList() {
+        return botList;
+    }
+
     @GetMapping("/")
     public String getHandler(Model model) {
         botList = botService.getBotList();
@@ -47,8 +50,12 @@ public class IndexController {
         clientData = userInfo.getUserInfo(clientData);
         //Start new bot
         botList = botService.call(clientData);
-
         //for testing
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         botList.forEach(System.out::println);
 
         model.addAttribute("botList", botList);

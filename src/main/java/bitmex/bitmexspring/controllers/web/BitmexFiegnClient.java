@@ -29,7 +29,7 @@ public interface BitmexFiegnClient {
                                  @RequestParam("depth") int depth);
 
     @PostMapping(BitmexEndpoints.ORDER)
-    String postOrder(@RequestHeader("api-expires") String expires,
+    Order postOrder(@RequestHeader("api-expires") String expires,
                      @RequestHeader("api-key") String key,
                      @RequestHeader("api-signature") String signature,
                      @RequestBody Order order);

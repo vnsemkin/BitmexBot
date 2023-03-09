@@ -11,13 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrderPost {
     private APIAuthData authData;
     private ClientData clientData;
     private final JsonController json;
     private final BitmexFiegnClient bitmexFiegnClient;
-
 
     @Autowired
     public OrderPost(BitmexFiegnClient bitmexFiegnClient, JsonController json) {
@@ -29,10 +30,11 @@ public class OrderPost {
         this.clientData = clientData;
     }
 
-    public void initialBuy() {
+    public void initialBuy(BitmexBot bitmexBot) {
+        List<Order> orderList = bitmexBot.getOrderList();
         for (int i = 1; i < clientData.getLevel() + 1; i++) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(100);
             } catch (InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
@@ -44,13 +46,14 @@ public class OrderPost {
             authData = new APIAuthDataService()
                     .getAPIAutData(clientData, String.valueOf(HttpMethod.POST), BitmexEndpoints.ORDER,
                             json.writeToString(order));
-            bitmexFiegnClient.postOrder(String.valueOf(authData.getApiExpires())
+            Order response = bitmexFiegnClient.postOrder(String.valueOf(authData.getApiExpires())
                     , authData.getApiKey(),
                     authData.getApiSignature(), order);
+            orderList.add(response);
         }
     }
 
-    public void buy() {
+    public Order buy() {
         Order order = new Order();
         order.setSymbol("XBTUSD");
         order.setSide("Buy");
@@ -59,13 +62,13 @@ public class OrderPost {
         authData = new APIAuthDataService()
                 .getAPIAutData(clientData, String.valueOf(HttpMethod.POST), BitmexEndpoints.ORDER,
                         json.writeToString(order));
-        bitmexFiegnClient.postOrder(String.valueOf(authData.getApiExpires())
+        return bitmexFiegnClient.postOrder(String.valueOf(authData.getApiExpires())
                 , authData.getApiKey(),
                 authData.getApiSignature(), order);
     }
 
 
-    public void sell() {
+    public Order sell() {
         Order order = new Order();
         order.setSymbol("XBTUSD");
         order.setSide("Sell");
@@ -74,7 +77,7 @@ public class OrderPost {
         authData = new APIAuthDataService()
                 .getAPIAutData(clientData, String.valueOf(HttpMethod.POST), BitmexEndpoints.ORDER,
                         json.writeToString(order));
-        bitmexFiegnClient.postOrder(String.valueOf(authData.getApiExpires())
+        return bitmexFiegnClient.postOrder(String.valueOf(authData.getApiExpires())
                 , authData.getApiKey(),
                 authData.getApiSignature(), order);
     }

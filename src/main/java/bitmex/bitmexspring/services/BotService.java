@@ -7,6 +7,7 @@ import bitmex.bitmexspring.models.bitmex.ClientData;
 import bitmex.bitmexspring.models.bitmex.WSAuth;
 import bitmex.bitmexspring.models.bitmex.WSRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -14,13 +15,15 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Service
 public class BotService {
-    private List<BitmexBot> botList = new ArrayList<>();
-    private final BitmexBot bitmexBot;
+    private BitmexBot bitmexBot;
+    private final ApplicationContext context;
+    private final List<BitmexBot> botList;
     private final JsonController json;
     private static final String WS_URL = "wss://ws.testnet.bitmex.com/realtime";
     private APIAuthData wsAuthData;
@@ -29,10 +32,11 @@ public class BotService {
     private WebSocketSession session;
 
     @Autowired
-    public BotService(BitmexBot bitmexBot, JsonController json, WSHandler wsHandler) {
-        this.bitmexBot = bitmexBot;
+    public BotService(ApplicationContext context, JsonController json, WSHandler wsHandler) {
+        this.context = context;
         this.json = json;
         this.wsHandler = wsHandler;
+        botList = new CopyOnWriteArrayList<>();
     }
 
     public List<BitmexBot> getBotList() {
@@ -49,14 +53,15 @@ public class BotService {
     }
 
     private void botStart() {
+        bitmexBot = context.getBean(BitmexBot.class);
         bitmexBot.setId(botList.size() + 1);
+        bitmexBot.setClientData(clientData);
         botList.add(bitmexBot);
-        startNewBot(clientData);
+        startNewBot();
     }
 
-    public void startNewBot(ClientData clientData) {
+    public void startNewBot() {
         ExecutorService executorService = Executors.newFixedThreadPool(1);
-        bitmexBot.setClientData(clientData);
         executorService.execute(bitmexBot);
     }
 

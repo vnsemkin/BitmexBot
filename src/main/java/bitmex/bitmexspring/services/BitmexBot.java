@@ -1,20 +1,33 @@
 package bitmex.bitmexspring.services;
 
 import bitmex.bitmexspring.models.bitmex.*;
+import bitmex.bitmexspring.models.user.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
+@Scope("prototype")
 @PropertySource("classpath:network.properties")
 public class BitmexBot implements Runnable {
     private int id;
     private ClientData clientData;
     private final OrderPost orderPost;
+    private List<Order> orderList;
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
 
     @Autowired
     public BitmexBot(OrderPost orderPost) {
         this.orderPost = orderPost;
+        orderList = new ArrayList<>();
     }
 
     public void setClientData(ClientData clientData) {
@@ -32,12 +45,14 @@ public class BitmexBot implements Runnable {
     @Override
     public void run() {
         orderPost.setClientData(clientData);
-        orderPost.initialBuy();
+        orderPost.initialBuy(this);
     }
 
     @Override
     public String toString() {
-        return "BitmexBot id : " + id;
+        return "BitmexBot id : "
+                + id + " : "
+                + orderList.toString();
     }
 }
 

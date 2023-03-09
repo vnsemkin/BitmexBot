@@ -1,9 +1,12 @@
 package bitmex.bitmexspring.services;
 
+import bitmex.bitmexspring.controllers.endpoints.IndexController;
 import bitmex.bitmexspring.controllers.json.JsonController;
 import bitmex.bitmexspring.models.bitmex.ClientData;
 import bitmex.bitmexspring.models.bitmex.WSOrderStatus;
+import bitmex.bitmexspring.models.user.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -13,6 +16,7 @@ import java.util.Objects;
 
 @Service
 public class WSHandler extends TextWebSocketHandler {
+    private final ApplicationContext context;
     private final StringBuilder message = new StringBuilder();
     private final StringBuilder cache = new StringBuilder();
     private final StringBuilder pong = new StringBuilder("pong");
@@ -22,7 +26,8 @@ public class WSHandler extends TextWebSocketHandler {
     private ClientData clientData;
 
     @Autowired
-    public WSHandler(JsonController json, OrderPost orderPost) {
+    public WSHandler(ApplicationContext context, JsonController json, OrderPost orderPost) {
+        this.context = context;
         this.json = json;
         this.orderPost = orderPost;
     }
@@ -33,6 +38,7 @@ public class WSHandler extends TextWebSocketHandler {
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage textMessage) {
+        IndexController indexController= context.getBean(IndexController.class);
         message.append(textMessage.getPayload());
         if (!message.toString().equals(pong.toString())) {
             if (!cache.toString().equals(message.toString())) {
@@ -50,12 +56,24 @@ public class WSHandler extends TextWebSocketHandler {
                             && wsOrderStatus.getOrder().get(0).getOrdStatus().equals("Filled")) {
                         clientData.setFilledPrice(wsOrderStatus.getOrder().get(0).getPrice());
                         orderPost.setClientData(clientData);
-                        orderPost.sell();
+                        Order order = orderPost.sell();
+                        for (BitmexBot bot : indexController.getBotList()) {
+                            bot.getOrderList().removeIf(ord -> Objects.equals(ord.getId(), wsOrderStatus.getOrder().get(0).getId()));
+                            bot.getOrderList().add(order);
+                        }
                     } else if (wsOrderStatus.getOrder().get(0).getSide().equals("Sell")
                             && wsOrderStatus.getOrder().get(0).getOrdStatus().equals("Filled")) {
                         clientData.setFilledPrice(wsOrderStatus.getOrder().get(0).getPrice());
                         orderPost.setClientData(clientData);
-                        orderPost.buy();
+                        Order order = orderPost.buy();
+                        for (BitmexBot bot : indexController.getBotList()) {
+                            bot.getOrderList().removeIf(ord -> Objects.equals(ord.getId(), wsOrderStatus.getOrder().get(0).getId()));
+                            bot.getOrderList().add(order);
+                        }
+                    }else if(wsOrderStatus.getOrder().get(0).getOrdStatus().equals("Canceled")){
+                        for (BitmexBot bot : indexController.getBotList()) {
+                            bot.getOrderList().removeIf(ord -> Objects.equals(ord.getId(), wsOrderStatus.getOrder().get(0).getId()));
+                        }
                     }
                 }
             }
