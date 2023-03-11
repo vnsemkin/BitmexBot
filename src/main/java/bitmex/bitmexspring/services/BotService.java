@@ -77,7 +77,7 @@ public class BotService {
                             wsAuthData.getApiExpires(),
                             wsAuthData.getApiSignature())))));
             Thread.sleep(500);
-            ping();
+//            ping();
             String command = "subscribe";
             session.sendMessage(new TextMessage(json
                     .writeToString(new WSRequest(command, List.of("order")))));
@@ -86,10 +86,5 @@ public class BotService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void ping() {
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
-        executorService.execute(new WSPing(session));
     }
 }

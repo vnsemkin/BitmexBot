@@ -2,14 +2,17 @@ package bitmex.bitmexspring.controllers.json;
 
 import bitmex.bitmexspring.models.user.BitmexData;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Objects;
 
 @Controller
-public class JsonController  {
+public class JsonController {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public BitmexData readToObject(String body, Class<? extends BitmexData> dataClass) {
@@ -35,13 +38,27 @@ public class JsonController  {
     }
 
 
-    public String writeToString(BitmexData bitmexData)  {
+    public String writeToString(BitmexData bitmexData) {
         try {
-
             return objectMapper.writeValueAsString(bitmexData);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean isTable(String jsonData) {
+        JsonNode jsonNode = null;
+        try {
+            jsonNode = objectMapper.readTree(jsonData);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        if (Objects.nonNull(jsonNode)) {
+            Iterator<String> iterator = jsonNode.fieldNames();
+            String field = iterator.next();
+            return field.equals("table");
+        }
+        return false;
     }
 }
 

@@ -7,13 +7,10 @@ import bitmex.bitmexspring.services.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
 @Controller
@@ -34,8 +31,18 @@ public class IndexController {
         return botList;
     }
 
+
     @GetMapping("/")
-    public String getHandler(@RequestParam( value = "id", defaultValue = "-1") String id,  Model model) {
+    public String getHandler(Model model) {
+        botList = botService.getBotList();
+        model.addAttribute("botList", botList);
+        return "home";
+    }
+
+    @PostMapping("/")
+    public String postHandler(@RequestParam( value = "id", required = false) String id,
+                              ClientData clientData,//Spring parsing parameters and create Object ClientData
+                              Model model) {
         botList = botService.getBotList();
         if (Objects.nonNull(id)) {
             for (BitmexBot bot:botList){
@@ -45,15 +52,8 @@ public class IndexController {
                     botList.remove(bot);
                 }
             }
+            return "home";
         }
-        model.addAttribute("botList", botList);
-        model.addAttribute("id", null);
-        return "home";
-    }
-
-    @PostMapping("/")
-    public String postHandler(ClientData clientData,//Spring parsing parameters and create Object ClientData
-                              Model model) {
         /*Only for test purpose*/
         clientData.setKey("YeOJnM7jXJKV8pf5dYMalLs0");
         clientData.setSecret("He6LhcpmH9oKNqjYu2RaxqsoutyGf2-0VUVPbIdiGCKOx_j2");
