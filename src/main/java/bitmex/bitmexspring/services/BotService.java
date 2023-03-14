@@ -95,7 +95,6 @@ public class BotService {
                             wsAuthData.getApiExpires(),
                             wsAuthData.getApiSignature())))));
             Thread.sleep(500);
-//            ping();
             String command = "subscribe";
             session.sendMessage(new TextMessage(json
                     .writeToString(new WSRequest(command, List.of("order")))));

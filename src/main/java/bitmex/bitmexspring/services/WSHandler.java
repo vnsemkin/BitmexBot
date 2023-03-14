@@ -2,7 +2,6 @@ package bitmex.bitmexspring.services;
 
 import bitmex.bitmexspring.controllers.endpoints.IndexController;
 import bitmex.bitmexspring.controllers.json.JsonController;
-import bitmex.bitmexspring.controllers.logger.LoggingController;
 import bitmex.bitmexspring.models.bitmex.ClientData;
 import bitmex.bitmexspring.models.bitmex.WSOrderStatus;
 import bitmex.bitmexspring.models.user.Order;
@@ -21,18 +20,18 @@ import java.util.Objects;
 
 @Service
 public class WSHandler extends TextWebSocketHandler {
-    private ApplicationContext context;
+    private final ApplicationContext context;
     private final StringBuilder message = new StringBuilder();
     private final StringBuilder pong = new StringBuilder("pong");
     private final JsonController json;
     private WSOrderStatus wsOrderStatus;
     private final OrderPost orderPost;
     private ClientData clientData;
-    private final long pingInterval = 5000; // 5 seconds
     private WebSocketSession session;
     private boolean messageReceived = false;
     private final ThreadPoolTaskScheduler taskScheduler;
     private final Logger logger = LoggerFactory.getLogger(WSHandler.class);
+
     public WSHandler(ApplicationContext context, PingTaskScheduler taskScheduler,
                      JsonController json, OrderPost orderPost) {
         this.context = context;
@@ -151,6 +150,8 @@ public class WSHandler extends TextWebSocketHandler {
     }
 
     private void schedulePingTask() {
+        // 5 seconds
+        long pingInterval = 5000;
         taskScheduler.scheduleAtFixedRate(this::sendPingMessage, pingInterval);
     }
 }

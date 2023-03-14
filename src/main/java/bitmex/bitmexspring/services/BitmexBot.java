@@ -2,7 +2,6 @@ package bitmex.bitmexspring.services;
 
 import bitmex.bitmexspring.models.bitmex.*;
 import bitmex.bitmexspring.models.user.Order;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
