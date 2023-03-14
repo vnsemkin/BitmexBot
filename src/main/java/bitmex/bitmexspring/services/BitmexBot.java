@@ -55,6 +55,10 @@ public class BitmexBot implements Runnable {
         this.id = id;
     }
 
+    public void cancelOrders(){
+        orderPost.delete(orderList);
+    }
+
     @Override
     public void run() {
         orderPost.setClientData(clientData);

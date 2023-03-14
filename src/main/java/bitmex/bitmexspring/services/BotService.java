@@ -13,7 +13,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -47,19 +47,42 @@ public class BotService {
         if (botList.size() == 0) {
             wsStart();
         }
-        botStart();
+        createBot();
         return botList;
     }
 
-    private void botStart() {
-        bitmexBot = context.getBean(BitmexBot.class);
-        bitmexBot.setId(botList.size() + 1);
-        bitmexBot.setClientData(clientData);
-        botList.add(bitmexBot);
-        startNewBot();
+    public void deleteBot(int id){
+        for (BitmexBot bot:botList) {
+            if (id == bot.getId()) {
+                //have to close all bot orders
+                bot.cancelOrders();
+                bot.getExecutor().shutdown();
+                botList.remove(bot);
+            }
+        }
     }
 
-    public void startNewBot() {
+    private void stopBot(){
+
+    }
+
+    private void createBot() {
+        //Each time I need a new instance of BitmexBot class
+        bitmexBot = context.getBean(BitmexBot.class);
+        bitmexBot.setId(getBotId());
+        bitmexBot.setClientData(clientData);
+        botList.add(bitmexBot);
+        startBot();
+    }
+
+    private int getBotId() {
+        return botList.stream()
+                .mapToInt(BitmexBot::getId)
+                .max()
+                .orElse(0) + 1;
+    }
+
+    public void startBot() {
         ExecutorService executorService = Executors.newFixedThreadPool(1);
         bitmexBot.setExecutor(executorService);
         executorService.execute(bitmexBot);

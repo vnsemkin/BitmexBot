@@ -9,6 +9,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @FeignClient(name = "bitmex",
         url = "${application.url}",
@@ -33,4 +35,10 @@ public interface BitmexFiegnClient {
                      @RequestHeader("api-key") String key,
                      @RequestHeader("api-signature") String signature,
                      @RequestBody Order order);
+
+    @DeleteMapping (BitmexEndpoints.ORDER)
+    List<Order> deleteOrder(@RequestHeader("api-expires") String expires,
+                      @RequestHeader("api-key") String key,
+                      @RequestHeader("api-signature") String signature,
+                      @RequestBody Map<String, Set<String>> map);
 }

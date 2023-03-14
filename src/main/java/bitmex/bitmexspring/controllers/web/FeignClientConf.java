@@ -18,12 +18,12 @@ public class FeignClientConf {
     @Value("${proxy.port}")
     String proxyPort;
 
-//    @Bean
-//    public Client feignClient() {
-//        return new Client.Proxied(null, null,
-//                new Proxy(Proxy.Type.HTTP,
-//                        new InetSocketAddress( proxyHost, Integer.parseInt(proxyPort))));
-//    }
+    @Bean
+    public Client feignClient() {
+        return new Client.Proxied(null, null,
+                new Proxy(Proxy.Type.HTTP,
+                        new InetSocketAddress( proxyHost, Integer.parseInt(proxyPort))));
+    }
 
     @Bean
     public RequestInterceptor requestInterceptor() {

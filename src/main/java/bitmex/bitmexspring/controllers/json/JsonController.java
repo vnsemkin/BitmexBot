@@ -38,9 +38,9 @@ public class JsonController {
     }
 
 
-    public String writeToString(BitmexData bitmexData) {
+    public String writeToString(Object object) {
         try {
-            return objectMapper.writeValueAsString(bitmexData);
+            return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

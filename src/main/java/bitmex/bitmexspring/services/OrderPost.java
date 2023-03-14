@@ -3,15 +3,16 @@ package bitmex.bitmexspring.services;
 import bitmex.bitmexspring.config.BitmexEndpoints;
 import bitmex.bitmexspring.controllers.authorization.APIAuthDataService;
 import bitmex.bitmexspring.controllers.json.JsonController;
+import bitmex.bitmexspring.controllers.logger.LoggingController;
 import bitmex.bitmexspring.controllers.web.BitmexFiegnClient;
 import bitmex.bitmexspring.models.bitmex.APIAuthData;
 import bitmex.bitmexspring.models.bitmex.ClientData;
 import bitmex.bitmexspring.models.user.Order;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderPost {
@@ -19,11 +20,13 @@ public class OrderPost {
     private ClientData clientData;
     private final JsonController json;
     private final BitmexFiegnClient bitmexFiegnClient;
+    private final LoggingController logger;
 
-    @Autowired
-    public OrderPost(BitmexFiegnClient bitmexFiegnClient, JsonController json) {
+
+    public OrderPost(BitmexFiegnClient bitmexFiegnClient, JsonController json, LoggingController logger) {
         this.bitmexFiegnClient = bitmexFiegnClient;
         this.json = json;
+        this.logger = logger;
     }
 
     public void setClientData(ClientData clientData) {
@@ -67,6 +70,19 @@ public class OrderPost {
                 authData.getApiSignature(), order);
     }
 
+    public void delete(List<Order> orderList){
+        String name = "orderID";
+        Set<String> idSet = orderList.stream().map(Order::getId).collect(Collectors.toSet());
+        Map<String,Set<String>> map = new HashMap<>();
+        map.put(name,idSet);
+        System.out.println(map);
+        authData = new APIAuthDataService()
+                .getAPIAutData(clientData, String.valueOf(HttpMethod.DELETE), BitmexEndpoints.ORDER,
+                        json.writeToString(map));
+        bitmexFiegnClient.deleteOrder(String.valueOf(authData.getApiExpires())
+                , authData.getApiKey(),
+                authData.getApiSignature(), map);
+    }
 
     public Order sell() {
         Order order = new Order();

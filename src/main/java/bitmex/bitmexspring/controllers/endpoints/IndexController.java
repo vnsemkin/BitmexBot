@@ -40,18 +40,13 @@ public class IndexController {
     }
 
     @PostMapping("/")
-    public String postHandler(@RequestParam( value = "id", required = false) String id,
+    public String postHandler(@RequestParam(value = "id", required = false) String id,
                               ClientData clientData,//Spring parsing parameters and create Object ClientData
                               Model model) {
         botList = botService.getBotList();
         if (Objects.nonNull(id)) {
-            for (BitmexBot bot:botList){
-                if(id.equals(String.valueOf(bot.getId()))){
-                    ExecutorService executor = bot.getExecutor();
-                    executor.shutdown();
-                    botList.remove(bot);
-                }
-            }
+            botService.deleteBot(Integer.parseInt(id));
+            model.addAttribute("botList", botList);
             return "home";
         }
         /*Only for test purpose*/
