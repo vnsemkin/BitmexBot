@@ -4,7 +4,6 @@ import bitmex.bitmexspring.services.BotService;
 import bitmex.bitmexspring.services.BitmexBot;
 import bitmex.bitmexspring.models.bitmex.ClientData;
 import bitmex.bitmexspring.services.UserInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,6 @@ public class IndexController {
     private final BotService botService;
     private List<BitmexBot> botList;
 
-    @Autowired
     public IndexController(UserInfo userInfo,
                            BotService botService) {
         this.botService = botService;

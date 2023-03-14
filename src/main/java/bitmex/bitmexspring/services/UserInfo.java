@@ -10,7 +10,6 @@ import bitmex.bitmexspring.models.user.OrderBookRequest;
 import bitmex.bitmexspring.models.user.OrderInfo;
 import bitmex.bitmexspring.models.user.User;
 import bitmex.bitmexspring.models.user.UserWallet;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,6 @@ public class UserInfo {
     private final String emptyData = "";
 
 
-    @Autowired
     public UserInfo(BitmexFiegnClient bitmexFiegnClient) {
         this.bitmexFiegnClient = bitmexFiegnClient;
     }

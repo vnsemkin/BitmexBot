@@ -37,7 +37,6 @@ public class BitmexBot implements Runnable {
         return executor;
     }
 
-    @Autowired
     public BitmexBot(OrderPost orderPost) {
         this.orderPost = orderPost;
         orderList = new CopyOnWriteArrayList<>();

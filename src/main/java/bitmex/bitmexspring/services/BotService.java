@@ -6,7 +6,6 @@ import bitmex.bitmexspring.models.bitmex.APIAuthData;
 import bitmex.bitmexspring.models.bitmex.ClientData;
 import bitmex.bitmexspring.models.bitmex.WSAuth;
 import bitmex.bitmexspring.models.bitmex.WSRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
@@ -30,7 +29,6 @@ public class BotService {
     private final WSHandler wsHandler;
     private WebSocketSession session;
 
-    @Autowired
     public BotService(ApplicationContext context, JsonController json, WSHandler wsHandler) {
         this.context = context;
         this.json = json;

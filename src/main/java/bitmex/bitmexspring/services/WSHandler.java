@@ -5,7 +5,6 @@ import bitmex.bitmexspring.controllers.json.JsonController;
 import bitmex.bitmexspring.models.bitmex.ClientData;
 import bitmex.bitmexspring.models.bitmex.WSOrderStatus;
 import bitmex.bitmexspring.models.user.Order;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,6 @@ public class WSHandler extends TextWebSocketHandler {
     private boolean messageReceived = false;
     private final ThreadPoolTaskScheduler taskScheduler;
 
-    @Autowired
     public WSHandler(ApplicationContext context, PingTaskScheduler taskScheduler,
                      JsonController json, OrderPost orderPost) {
         this.context = context;
