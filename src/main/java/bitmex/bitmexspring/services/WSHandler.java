@@ -2,9 +2,12 @@ package bitmex.bitmexspring.services;
 
 import bitmex.bitmexspring.controllers.endpoints.IndexController;
 import bitmex.bitmexspring.controllers.json.JsonController;
+import bitmex.bitmexspring.controllers.logger.LoggingController;
 import bitmex.bitmexspring.models.bitmex.ClientData;
 import bitmex.bitmexspring.models.bitmex.WSOrderStatus;
 import bitmex.bitmexspring.models.user.Order;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
@@ -29,7 +32,7 @@ public class WSHandler extends TextWebSocketHandler {
     private WebSocketSession session;
     private boolean messageReceived = false;
     private final ThreadPoolTaskScheduler taskScheduler;
-
+    private final Logger logger = LoggerFactory.getLogger(WSHandler.class);
     public WSHandler(ApplicationContext context, PingTaskScheduler taskScheduler,
                      JsonController json, OrderPost orderPost) {
         this.context = context;
@@ -74,7 +77,7 @@ public class WSHandler extends TextWebSocketHandler {
             wsOrderStatus = (WSOrderStatus) json.readToObject(String.valueOf(message), WSOrderStatus.class);
             if (!Objects.equals(wsOrderStatus.getAction(), "partial")) {
                 //for test
-                wsOrderStatus.getOrder().forEach(ord -> System.out.println(wsOrderStatus.getAction()
+                wsOrderStatus.getOrder().forEach(ord -> logger.info(wsOrderStatus.getAction()
                         + ": Side " + ord.getSide()
                         + ", Status " + ord.getOrdStatus()
                         + ", id: " + ord.getId()
