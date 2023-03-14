@@ -62,9 +62,6 @@ public class BotService {
         }
     }
 
-    private void stopBot(){
-
-    }
 
     private void createBot() {
         //Each time I need a new instance of BitmexBot class

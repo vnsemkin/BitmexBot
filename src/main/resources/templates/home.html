@@ -48,9 +48,9 @@
     </div>
     <div th:each="bot : ${botList}" class="text-bg-dark p-3" style="position: relative;">
         <div style="text-align: center; color: white;">
-            <h1 style="font-size: 1rem">New Bot <span
+            <h1 style="font-size: 1rem">Bot №<span
                     th:text="${bot.getId()}"
-                    style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span> Started!</h1>
+                    style="font-size: 22px; margin-bottom: 8px; margin-top: 8px;"></span> Started!</h1>
         </div>
         <div class="container wrap-btn" style="text-align: center; color: white;  margin-bottom: 40px">
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">API key is : <span
@@ -87,9 +87,19 @@
                         style="font-size: 14px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             </div>
         </div>
-        <form method="post">
-            <button class="btn btn-primary btn-stop" type="submit"  name="id" th:value="${bot.getId()}">Stop the bot</button>
-        </form>
+        <div>
+            <form method="post">
+                <button class="btn btn-primary btn-stop" type="submit" name="id" th:value="${bot.getId()}">Stop the
+                    bot
+                </button>
+            </form>
+        </div>
+        <div>
+            <form method="get">
+                <button class="btn btn-primary btn-stop" type="submit">Refresh</button>
+            </form>
+        </div>
+
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"

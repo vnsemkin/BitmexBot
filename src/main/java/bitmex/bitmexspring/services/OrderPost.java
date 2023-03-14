@@ -36,11 +36,6 @@ public class OrderPost {
     public void initialBuy(BitmexBot bitmexBot) {
         List<Order> orderList = bitmexBot.getOrderList();
         for (int i = 1; i < clientData.getLevel() + 1; i++) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
             Order order = new Order();
             order.setSymbol("XBTUSD");
             order.setSide("Buy");
@@ -75,7 +70,6 @@ public class OrderPost {
         Set<String> idSet = orderList.stream().map(Order::getId).collect(Collectors.toSet());
         Map<String,Set<String>> map = new HashMap<>();
         map.put(name,idSet);
-        System.out.println(map);
         authData = new APIAuthDataService()
                 .getAPIAutData(clientData, String.valueOf(HttpMethod.DELETE), BitmexEndpoints.ORDER,
                         json.writeToString(map));

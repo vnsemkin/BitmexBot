@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
 
 @Controller
 public class IndexController {
@@ -58,13 +57,6 @@ public class IndexController {
         clientData = userInfo.getUserInfo(clientData);
         //Start new bot
         botList = botService.call(clientData);
-        //for testing
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        botList.forEach(System.out::println);
 
         model.addAttribute("botList", botList);
         return "home";
