@@ -1,0 +1,91 @@
+
+body
+{
+    background-color:#141019;
+    background: radial-gradient(at 50% -20%, #908392, #0d060e) fixed;
+}
+
+
+#handboy
+{
+    animation: swing ease-in-out 1.3s infinite alternate;
+    transform-origin: 98% 98%;
+    transform-box: fill-box;
+
+}
+
+
+#girllight
+{
+    animation: swing ease-in-out 1.3s infinite alternate;
+    transform-origin: 0% 97%;
+    transform-box: fill-box;
+}
+
+#hairgirl
+{
+    animation: swinghair ease-in-out 1.3s infinite alternate;
+    transform-origin: 60% 0%;
+    transform-box: fill-box;
+
+}
+
+#zero
+{
+    transform-origin:bottom;
+    transform-box:fill-box;
+
+}
+
+/*************swing************/
+@keyframes swing {
+    0% { transform: rotate(10deg); }
+    100% { transform: rotate(-10deg); }
+}
+
+
+/*************swing hair************/
+@keyframes swinghair {
+    0% { transform: rotate(6deg); }
+    100% { transform: rotate(-6deg); }
+}
+
+.text-bg-dark {
+    margin-top: 20px;
+    width: 350px;
+    margin-left: 20px;
+}
+
+.form-control {
+    font-size: 16px;
+}
+
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.wrap-btn {
+    position: relative;
+}
+
+.btn-stop {
+    position: absolute;
+    bottom: 3%;
+    left: 9%;
+}
+
+.btn-refresh {
+    position: absolute;
+    left: 60%;
+    bottom: 3%;
+}
+
+.orders {
+    width: auto;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}

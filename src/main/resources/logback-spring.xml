@@ -1,0 +1,36 @@
+<configuration>
+    <appender name="ClassAppender" class="ch.qos.logback.core.FileAppender">
+        <file>/home/normat/IdeaProjects/BitmexBot/logs/bitmex_bot.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="MyTestAppender" class="ch.qos.logback.core.FileAppender">
+        <file>/home/normat/IdeaProjects/BitmexBot/logs/application.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="ConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="bitmex.bitmexspring.services.WSHandler" level="DEBUG" additivity="false">
+        <appender-ref ref="ClassAppender"/>
+    </logger>
+
+    <logger name="bitmex.bitmexspring.services.WSHandler" level="DEBUG" additivity="false">
+        <appender-ref ref="ConsoleAppender"/>
+    </logger>
+
+    <logger name="bitmex.bitmexspring.aspect.LoggingAspect" level="INFO" additivity="false">
+        <appender-ref ref="MyTestAppender"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="ConsoleAppender"/>
+    </root>
+</configuration>
