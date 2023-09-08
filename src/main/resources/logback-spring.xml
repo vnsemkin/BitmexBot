@@ -18,11 +18,11 @@
         </encoder>
     </appender>
 
-    <logger name="bitmex.bitmexspring.services.WSHandler" level="DEBUG" additivity="false">
+    <logger name="bitmex.bitmexspring.service.WSHandler" level="DEBUG" additivity="false">
         <appender-ref ref="ClassAppender"/>
     </logger>
 
-    <logger name="bitmex.bitmexspring.services.WSHandler" level="DEBUG" additivity="false">
+    <logger name="bitmex.bitmexspring.service.WSHandler" level="DEBUG" additivity="false">
         <appender-ref ref="ConsoleAppender"/>
     </logger>
 

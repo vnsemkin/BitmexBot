@@ -10,3 +10,4 @@ import java.lang.annotation.Target;
 public @interface BitmexLog {
     String message() default "";
 }
+//        IndexController indexController = context.getBean(IndexController.class);

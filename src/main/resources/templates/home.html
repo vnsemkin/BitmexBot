@@ -54,36 +54,36 @@
         </div>
         <div class="container wrap-btn" style="text-align: center; color: white;  margin-bottom: 40px">
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">API key is : <span
-                    th:text="${bot.getClientData().getKey()}"
+                    th:text="${bot.getBitmexBotData().getKey()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">API secret : <span
-                    th:text="${bot.getClientData().getSecret()}"
+                    th:text="${bot.getBitmexBotData().getSecret()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Client name : <span
-                    th:text="${bot.getClientData().getUserName()}"
+                    th:text="${bot.getBitmexBotData().getUserName()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Client email : <span
-                    th:text="${bot.getClientData().getUserEmail()}"
+                    th:text="${bot.getBitmexBotData().getUserEmail()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Client account : <span
-                    th:text="${bot.getClientData().getUserAccount()}"
+                    th:text="${bot.getBitmexBotData().getUserAccount()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Client currency : <span
-                    th:text="${bot.getClientData().getUserCurrency()}"
+                    th:text="${bot.getBitmexBotData().getUserCurrency()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Last Market Buy : <span
-                    th:text="${bot.getClientData().getLastBuy()}"
+                    th:text="${bot.getBitmexBotData().getLastBuy()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Last Market Sell : <span
-                    th:text="${bot.getClientData().getLastSell()}"
+                    th:text="${bot.getBitmexBotData().getLastSell()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
-            <div th:each="order : ${bot.getOrderList()}" class="text-bg-dark orders">
+            <div th:each="bitmexOrder : ${bot.getBitmexOrders()}" class="text-bg-dark orders">
                 <h1 style="font-size: 1rem">Order placed:</h1>
                 <h3 style="text-align: left; font-size: 16px; margin-bottom: 20px">Order id : <span
-                        th:text="${order.getId()}"
+                        th:text="${bitmexOrder.getId()}"
                         style="font-size: 14px; margin-bottom: 8px; margin-top: 8px"></span></h3>
                 <h3 style="text-align: left; font-size: 16px; margin-bottom: 20px">Order price : <span
-                        th:text="${order.getPrice()}"
+                        th:text="${bitmexOrder.getPrice()}"
                         style="font-size: 14px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             </div>
         </div>

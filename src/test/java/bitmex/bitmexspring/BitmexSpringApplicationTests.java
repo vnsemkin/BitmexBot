@@ -1,15 +1,15 @@
 package bitmex.bitmexspring;
 
-import bitmex.bitmexspring.services.WSHandler;
-import bitmex.bitmexspring.controllers.authorization.APISignatureService;
-import bitmex.bitmexspring.controllers.json.JsonController;
-import bitmex.bitmexspring.models.user.BitmexData;
+import bitmex.bitmexspring.service.WSHandler;
+import bitmex.bitmexspring.util.authorization.APISignatureService;
+import bitmex.bitmexspring.util.json.JsonParser;
+import bitmex.bitmexspring.model.user.BitmexData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import bitmex.bitmexspring.models.user.User;
+import bitmex.bitmexspring.model.user.User;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpMethod;
 
@@ -19,18 +19,18 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@SpringBootTest(classes = {JsonController.class, WSHandler.class})
+@SpringBootTest(classes = {JsonParser.class, WSHandler.class})
 @PropertySource("classpath:network.properties")
 class BitmexSpringApplicationTests {
     @Value("${app.symbol}")
     String symbol;
-    JsonController json;
+    JsonParser json;
     WSHandler wsHandler;
     String testKey = "YeOJnM7jXJKV8pf5dYMalLs0";
     String testSecret = "He6LhcpmH9oKNqjYu2RaxqsoutyGf2-0VUVPbIdiGCKOx_j2";
 
     @Autowired
-    public BitmexSpringApplicationTests(JsonController json, WSHandler wsHandler) {
+    public BitmexSpringApplicationTests(JsonParser json, WSHandler wsHandler) {
         this.json = json;
         this.wsHandler = wsHandler;
     }

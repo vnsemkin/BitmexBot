@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 
 @Aspect
-@Component
 @Slf4j
+@Component
 public class LoggingAspect {
 
     @Around("@annotation(BitmexLog)")
@@ -20,3 +20,4 @@ public class LoggingAspect {
         joinPoint.proceed();
     }
 }
+
