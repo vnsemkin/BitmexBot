@@ -25,6 +25,17 @@ public class BotRepoTests {
     public void shouldDeleteBot(){
         //GIVEN
         List<BitmexBot> expectedBotList = botRepo.findAll();
+        BitmexBot bitmexBot = getBitmexBot();
+        //WHEN
+        BitmexBot botFromDB = botRepo.createBot(bitmexBot);
+        botRepo.deleteByBotId(botFromDB.getBotId());
+        List<BitmexBot> actualBotList = botRepo.findAll();
+        //THEN
+        Assertions.assertEquals(botFromDB, bitmexBot);
+        Assertions.assertEquals(expectedBotList, actualBotList);
+    }
+
+    private static BitmexBot getBitmexBot() {
         BitmexBot bitmexBot = new BitmexBot();
         BitmexOrder order1 = new BitmexOrder();
         BitmexOrder order2 = new BitmexOrder();
@@ -38,12 +49,6 @@ public class BotRepoTests {
         bitmexBot.setBitmexBotData(bitmexBotData);
         bitmexBot.setBitmexOrders(bitmexOrders);
         bitmexBot.setBotId(Integer.MAX_VALUE);
-        //WHEN
-        BitmexBot botFromDB = botRepo.createBot(bitmexBot);
-        botRepo.deleteByBotId(botFromDB.getBotId());
-        List<BitmexBot> actualBotList = botRepo.findAll();
-        //THEN
-        Assertions.assertEquals(botFromDB, bitmexBot);
-        Assertions.assertEquals(expectedBotList, actualBotList);
+        return bitmexBot;
     }
 }

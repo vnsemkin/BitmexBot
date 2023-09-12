@@ -15,7 +15,7 @@
 <div class="wrapper">
     <div class="text-bg-dark p-3">
         <div class="container">
-            <form method="post">
+            <form method="post" action="http://localhost:8080/bot">
                 <div class="mb-3">
                     <label for="key" class="form-label">API Key</label>
                     <input type="text" class="form-control" id="key" placeholder="Input API key" name="key" required>
@@ -56,9 +56,6 @@
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">API key is : <span
                     th:text="${bot.getBitmexBotData().getKey()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
-            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">API secret : <span
-                    th:text="${bot.getBitmexBotData().getSecret()}"
-                    style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Client name : <span
                     th:text="${bot.getBitmexBotData().getUserName()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
@@ -88,12 +85,12 @@
             </div>
         </div>
         <div style="display: flex; justify-content: space-between">
-            <form method="post" >
+            <form method="post" action="http://localhost:8080/bot">
                 <button style="display: inline-block; margin-right: 10px" class="btn btn-primary btn-stop" type="submit" name="id" th:value="${bot.getId()}">Stop the
                     bot
                 </button>
             </form>
-            <form method="get">
+            <form method="get" action="http://localhost:8080/bot">
                 <button style="display: inline-block; margin-right: 10px" class="btn btn-primary btn-refresh" type="submit">Refresh</button>
             </form>
         </div>

@@ -5,7 +5,6 @@ import bitmexbot.entity.BitmexBotData;
 import bitmexbot.repository.BotRepo;
 import bitmexbot.service.BotFactory;
 import bitmexbot.service.UserInfoService;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,18 +16,16 @@ import java.util.List;
 import java.util.Objects;
 
 @Controller
-public class IndexController {
+public class BotController {
     private final UserInfoService userInfoService;
     private final BotFactory botFactory;
-    @Getter
-    private List<BitmexBot> botList;
     @Value("${bitmex.token.key}")
     private String key;
     @Value("${bitmex.token.secret}")
     private String secret;
     private final BotRepo botRepo;
 
-    public IndexController(UserInfoService userInfoService
+    public BotController(UserInfoService userInfoService
             , BotFactory botFactory
             , BotRepo botRepo
     ) {
@@ -37,18 +34,20 @@ public class IndexController {
         this.botRepo = botRepo;
     }
 
-
-    @GetMapping("/")
-    public String getHandler(Model model) {
+    @GetMapping("/bot")
+    public String getBots(Model model) {
+        List<BitmexBot> botList;
         botList = botRepo.findAll();
         model.addAttribute("botList", botList);
         return "home";
     }
 
-    @PostMapping("/")
+
+    @PostMapping("/bot")
     public String postHandler(@RequestParam(value = "id", required = false) String id,
                               BitmexBotData bitmexBotData,
                               Model model) {
+        List<BitmexBot> botList;
         if (Objects.nonNull(id)) {
             botList = botFactory.deleteBot(Integer.parseInt(id));
             model.addAttribute("botList", botList);
