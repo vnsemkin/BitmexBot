@@ -1,4 +1,4 @@
-package bitmexbot.service;
+package bitmexbot.network;
 
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;

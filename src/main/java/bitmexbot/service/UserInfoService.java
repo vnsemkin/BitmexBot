@@ -4,13 +4,9 @@ package bitmexbot.service;
 import bitmexbot.config.BitmexConstants;
 import bitmexbot.config.BitmexEndpoints;
 import bitmexbot.entity.BitmexBotData;
-import bitmexbot.model.bitmex.APIAuthData;
-import bitmexbot.model.user.OrderBookRequest;
-import bitmexbot.model.user.OrderInfo;
-import bitmexbot.model.user.User;
-import bitmexbot.model.user.UserWallet;
+import bitmexbot.model.*;
+import bitmexbot.output.BitmexFeignClient;
 import bitmexbot.util.authorization.APIAuthDataService;
-import bitmexbot.util.web.BitmexFeignClient;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
@@ -41,19 +37,16 @@ public class UserInfoService {
                 authData.getApiKey(),
                 authData.getApiSignature());
 
-        OrderBookRequest orderBookRequest = new OrderBookRequest(BitmexConstants.XBTUSDT_SYMBOL, 1);
+        QuoteRequest quoteRequest = new QuoteRequest(BitmexConstants.XBTUSDT_SYMBOL, 1, true);
 
         //Get the latest Bid and Ask
-        List<OrderInfo> orderInfoList = bitmexFeignClient.getOrderBook(String.valueOf(orderBookRequest.getSymbol()),
-                orderBookRequest.getDepth());
+        List<QuoteResponse> quoteResponse = bitmexFeignClient.getQuote(quoteRequest.getSymbol()
+                , quoteRequest.getCount()
+                , quoteRequest.isReverse());
 
-        for (OrderInfo order : orderInfoList) {
-            if (order.getSide().equalsIgnoreCase(BitmexConstants.ORDER_BUY)) {
-                bitmexBotData.setLastBuy(order.getPrice());
-            } else {
-                bitmexBotData.setLastSell(order.getPrice());
-            }
-        }
+        bitmexBotData.setLastBuy(quoteResponse.get(0).getLastBid());
+        bitmexBotData.setLastSell(quoteResponse.get(0).getLastAsk());
+
         bitmexBotData.setUserName(user.getUserName());
         bitmexBotData.setUserEmail(user.getEmail());
         bitmexBotData.setUserAccount(userWallet.getAccount());

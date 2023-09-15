@@ -1,7 +1,7 @@
 package bitmexbot.util.authorization;
 
 import bitmexbot.entity.BitmexBotData;
-import bitmexbot.model.bitmex.APIAuthData;
+import bitmexbot.model.APIAuthData;
 
 public class APIAuthDataService {
 

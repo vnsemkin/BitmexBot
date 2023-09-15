@@ -1,4 +1,4 @@
-package bitmexbot.util.web;
+package bitmexbot.output;
 
 import feign.RequestInterceptor;
 import org.springframework.beans.factory.annotation.Value;

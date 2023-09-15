@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -28,6 +29,11 @@ public interface BotRepo extends JpaRepository<BitmexBot, Long> {
             "WHERE bo.orderId = :orderId")
     Optional<BitmexBot> findBotByBitmexOrder(@Param("orderId") String orderId);
 
+    @Transactional
+    @Query("SELECT b FROM BitmexBot b LEFT JOIN FETCH b.bitmexOrders")
+    List<BitmexBot> findBotWithOrders();
+
+    @Modifying
     @Transactional
     default BitmexBot updateBot(BitmexBot bitmexBot) {
         return this.saveAndFlush(bitmexBot);

@@ -1,8 +1,8 @@
 package bitmexbot;
 
-import bitmexbot.model.user.BitmexData;
-import bitmexbot.model.user.User;
-import bitmexbot.service.WSHandler;
+import bitmexbot.model.BitmexData;
+import bitmexbot.model.User;
+import bitmexbot.network.WebSocketHandler;
 import bitmexbot.util.authorization.APISignatureService;
 import bitmexbot.util.json.JsonParser;
 import org.junit.jupiter.api.Assertions;
@@ -27,7 +27,7 @@ class BitmexSpringApplicationTests {
     @Autowired
     JsonParser json;
     @Autowired
-    WSHandler wsHandler;
+    WebSocketHandler webSocketHandler;
     String testKey = "YeOJnM7jXJKV8pf5dYMalLs0";
     String testSecret = "He6LhcpmH9oKNqjYu2RaxqsoutyGf2-0VUVPbIdiGCKOx_j2";
 

@@ -5,11 +5,11 @@ import bitmexbot.config.BitmexEndpoints;
 import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.entity.BitmexOrder;
-import bitmexbot.model.bitmex.APIAuthData;
+import bitmexbot.model.APIAuthData;
 import bitmexbot.repository.BotRepo;
 import bitmexbot.util.authorization.APIAuthDataService;
 import bitmexbot.util.json.JsonParser;
-import bitmexbot.util.web.BitmexFeignClient;
+import bitmexbot.output.BitmexFeignClient;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +35,7 @@ public class OrderHandler {
 
 
     public void initialBuy(BitmexBot bitmexBot) {
-        Set<BitmexOrder> bitmexOrderList = bitmexBot.getBitmexOrders();
+        Set<BitmexOrder> orders = bitmexBot.getBitmexOrders();
         BitmexBotData bitmexBotData = bitmexBot.getBitmexBotData();
         for (int i = 1; i < bitmexBotData.getLevel() + 1; i++) {
             BitmexOrder bitmexOrder = new BitmexOrder();
@@ -49,7 +49,8 @@ public class OrderHandler {
             BitmexOrder response = bitmexFeignClient.postOrder(String.valueOf(authData.getApiExpires())
                     , authData.getApiKey(),
                     authData.getApiSignature(), bitmexOrder);
-            bitmexOrderList.add(response);
+            response.setBitmexBot(bitmexBot);
+            orders.add(response);
         }
         botRepo.updateBot(bitmexBot);
     }

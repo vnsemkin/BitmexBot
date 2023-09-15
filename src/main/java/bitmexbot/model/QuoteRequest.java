@@ -1,19 +1,21 @@
-package bitmexbot.model.user;
+package bitmexbot.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderInfo {
+public class QuoteRequest {
     @JsonProperty("symbol")
     String symbol;
-    @JsonProperty("side")
-    String side;
-    @JsonProperty("price")
-    double price;
+    @JsonProperty("count")
+    double count;
+    @JsonProperty("reverse")
+    boolean reverse;
 }

@@ -1,6 +1,8 @@
 package bitmexbot.controller;
 
-import bitmexbot.entity.BitmexBot;
+import bitmexbot.config.Strategy;
+import bitmexbot.dto.BotDTO;
+import bitmexbot.dto.BotDTOList;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.repository.BotRepo;
 import bitmexbot.service.BotFactory;
@@ -8,12 +10,14 @@ import bitmexbot.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class BotController {
@@ -36,34 +40,38 @@ public class BotController {
 
     @GetMapping("/bot")
     public String getBots(Model model) {
-        List<BitmexBot> botList;
-        botList = botRepo.findAll();
+        List<BotDTO> botList;
+        botList = BotDTOList.of(botRepo.findBotWithOrders());
+        List<String> strategies = new ArrayList<>(Arrays.stream(Strategy.values())
+                .map(Strategy::getLabel)
+                .toList());
+        strategies.replaceAll(s->s.replaceAll("\\\\[|\\\\]",""));
+        model.addAttribute("strategies", strategies);
         model.addAttribute("botList", botList);
         return "home";
     }
 
-
     @PostMapping("/bot")
-    public String postHandler(@RequestParam(value = "id", required = false) String id,
-                              BitmexBotData bitmexBotData,
-                              Model model) {
-        List<BitmexBot> botList;
-        if (Objects.nonNull(id)) {
-            botList = botFactory.deleteBot(Integer.parseInt(id));
-            model.addAttribute("botList", botList);
-            return "home";
-        }
-
+    public String postHandler(BitmexBotData bitmexBotData, Model model) {
         //For test purpose only
         bitmexBotData.setKey(key);
         bitmexBotData.setSecret(secret);
         //
+        List<BotDTO> botList;
         // Set User info and order book last buy and sell prices
         bitmexBotData = userInfoService.getUserInfo(bitmexBotData);
         //
+
         // Get bots if they are
-        botList = botFactory.createNewBotAndGetExisting(bitmexBotData);
+        botList = BotDTOList.of(botFactory
+                .createNewBot(bitmexBotData));
         model.addAttribute("botList", botList);
+        return "home";
+    }
+    @DeleteMapping("/bot/{id}")
+    public String deleteBot(@RequestParam int botId, Model model){
+        botRepo.deleteByBotId(botId);
+        model.addAttribute("botList", BotDTOList.of(botRepo.findBotWithOrders()));
         return "home";
     }
 }

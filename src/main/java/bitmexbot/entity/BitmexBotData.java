@@ -1,9 +1,12 @@
 package bitmexbot.entity;
 
+import bitmexbot.config.Strategy;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "bots_data")
 public class BitmexBotData {
@@ -23,4 +26,6 @@ public class BitmexBotData {
     private Double coefficient;
     private double lastBuy;
     private double lastSell;
+    @Enumerated(EnumType.STRING)
+    private Strategy strategy;
 }

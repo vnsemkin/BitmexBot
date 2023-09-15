@@ -1,4 +1,4 @@
-package bitmexbot.model.bitmex;
+package bitmexbot.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

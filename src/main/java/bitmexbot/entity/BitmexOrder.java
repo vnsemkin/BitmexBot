@@ -1,12 +1,14 @@
 package bitmexbot.entity;
 
-import bitmexbot.model.user.BitmexData;
+import bitmexbot.model.BitmexData;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "orders")

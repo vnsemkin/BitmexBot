@@ -1,11 +1,12 @@
-package bitmexbot.service;
+package bitmexbot.network;
 
 import bitmexbot.config.BitmexConstants;
 import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexOrder;
-import bitmexbot.model.bitmex.WSOrderStatus;
+import bitmexbot.model.WSOrderStatus;
 import bitmexbot.repository.BotRepo;
 import bitmexbot.repository.OrderRepo;
+import bitmexbot.service.OrderHandler;
 import bitmexbot.util.json.JsonParser;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ import static bitmexbot.config.BitmexConstants.*;
 
 @Service
 @Slf4j
-public class WSHandler extends TextWebSocketHandler {
+public class WebSocketHandler extends TextWebSocketHandler {
     private final StringBuilder message;
     private final JsonParser json;
     private WSOrderStatus wsOrderStatus;
@@ -35,8 +36,8 @@ public class WSHandler extends TextWebSocketHandler {
     private boolean messageReceived;
     private final ThreadPoolTaskScheduler taskScheduler;
 
-    public WSHandler(PingTaskScheduler taskScheduler,
-                     JsonParser json
+    public WebSocketHandler(PingTaskScheduler taskScheduler,
+                            JsonParser json
             , OrderHandler orderHandler
             , BotRepo botRepo
             , OrderRepo orderRepo) {
@@ -140,7 +141,7 @@ public class WSHandler extends TextWebSocketHandler {
         }
         messageReceived = true;
         try {
-            Thread.currentThread().sleep(4500);
+            Thread.sleep(4500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

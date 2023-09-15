@@ -1,4 +1,4 @@
-package bitmexbot.model.user;
+package bitmexbot.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -5,9 +5,10 @@ import bitmexbot.config.BitmexConstants;
 import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.entity.BitmexOrder;
-import bitmexbot.model.bitmex.APIAuthData;
-import bitmexbot.model.bitmex.WSAuth;
-import bitmexbot.model.bitmex.WSRequest;
+import bitmexbot.model.APIAuthData;
+import bitmexbot.model.WSAuth;
+import bitmexbot.model.WSRequest;
+import bitmexbot.network.WebSocketHandler;
 import bitmexbot.repository.BotRepo;
 import bitmexbot.util.authorization.APIAuthDataService;
 import bitmexbot.util.json.JsonParser;
@@ -27,20 +28,20 @@ public class BotFactory {
     private static String WS_URL;
     private final OrderHandler orderHandler;
     private final JsonParser json;
-    private final WSHandler wsHandler;
+    private final WebSocketHandler webSocketHandler;
     private final BotRepo botRepo;
 
     public BotFactory(OrderHandler orderHandler
             , JsonParser json
-            , WSHandler wsHandler
+            , WebSocketHandler webSocketHandler
             , BotRepo botRepo) {
         this.orderHandler = orderHandler;
         this.json = json;
-        this.wsHandler = wsHandler;
+        this.webSocketHandler = webSocketHandler;
         this.botRepo = botRepo;
     }
 
-    public List<BitmexBot> createNewBotAndGetExisting(BitmexBotData bitmexBotData) {
+    public List<BitmexBot> createNewBot(BitmexBotData bitmexBotData) {
         List<BitmexBot> botList = botRepo.findAll();
         if (botList.isEmpty()) {
             wsStart(bitmexBotData);
@@ -85,7 +86,7 @@ public class BotFactory {
             APIAuthData wsAuthData = new APIAuthDataService().getAPIAutDataWS(bitmexBotData.getKey()
                     , bitmexBotData.getSecret());
             WebSocketSession session = new StandardWebSocketClient()
-                    .execute(wsHandler, WS_URL)
+                    .execute(webSocketHandler, WS_URL)
                     .get();
             Thread.sleep(BitmexConstants.TIMEOUT_500);
             session.sendMessage(new TextMessage(json

@@ -1,6 +1,6 @@
-package bitmexbot.model.bitmex;
+package bitmexbot.model;
 
-import bitmexbot.model.user.BitmexData;
+import bitmexbot.model.BitmexData;
 import bitmexbot.entity.BitmexOrder;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

@@ -18,11 +18,11 @@
         </encoder>
     </appender>
 
-    <logger name="bitmexbot.service.WSHandler" level="DEBUG" additivity="false">
+    <logger name="bitmexbot.network.WebSocketHandler" level="DEBUG" additivity="false">
         <appender-ref ref="ClassAppender"/>
     </logger>
 
-    <logger name="bitmexbot.service.WSHandler" level="DEBUG" additivity="false">
+    <logger name="bitmexbot.network.WebSocketHandler" level="DEBUG" additivity="false">
         <appender-ref ref="ConsoleAppender"/>
     </logger>
 

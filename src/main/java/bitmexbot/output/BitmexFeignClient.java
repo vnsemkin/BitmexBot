@@ -1,11 +1,11 @@
-package bitmexbot.util.web;
+package bitmexbot.output;
 
 import bitmexbot.config.BitmexConstants;
 import bitmexbot.config.BitmexEndpoints;
 import bitmexbot.entity.BitmexOrder;
-import bitmexbot.model.user.OrderInfo;
-import bitmexbot.model.user.User;
-import bitmexbot.model.user.UserWallet;
+import bitmexbot.model.QuoteResponse;
+import bitmexbot.model.User;
+import bitmexbot.model.UserWallet;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +27,10 @@ public interface BitmexFeignClient {
                              @RequestHeader(BitmexConstants.API_KEY) String key,
                              @RequestHeader(BitmexConstants.API_SIGNATURE) String signature);
 
-    @GetMapping(BitmexEndpoints.ORDER_BOOK)
-    List<OrderInfo> getOrderBook(@RequestParam("symbol") String symbol,
-                                 @RequestParam("depth") int depth);
+    @GetMapping(BitmexEndpoints.QUOTE)
+    List<QuoteResponse> getQuote(@RequestParam String symbol,
+                                 @RequestParam Double count,
+                                 @RequestParam Boolean reverse);
 
     @PostMapping(BitmexEndpoints.ORDER)
     BitmexOrder postOrder(@RequestHeader(BitmexConstants.API_EXPIRES) String expires,

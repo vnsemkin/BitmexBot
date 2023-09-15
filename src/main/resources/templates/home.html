@@ -17,64 +17,68 @@
         <div class="container">
             <form method="post" action="http://localhost:8080/bot">
                 <div class="mb-3">
-                    <label for="key" class="form-label">API Key</label>
+                    <label for="key" class="form-label">Bitmex ключ</label>
                     <input type="text" class="form-control" id="key" placeholder="Input API key" name="key" required>
                 </div>
                 <div class="mb-3">
-                    <label for="secret" class="form-label">APISecret</label>
+                    <label for="secret" class="form-label">Bitmex секрет</label>
                     <input type="text" class="form-control" id="secret" placeholder="input API secret" name="secret"
                            required>
                 </div>
                 <div class="mb-3">
-                    <label for="step" class="form-label">Step</label>
+                    <label for="step" class="form-label">Шаг цены ордеров</label>
                     <input type="text" class="form-control" id="step" placeholder="Разница между ценами ордеров"
                            name="step"
                            required>
                 </div>
                 <div class="mb-3">
-                    <label for="level" class="form-label">Level</label>
+                    <label for="level" class="form-label">Количество ордеров</label>
                     <input type="text" class="form-control" id="level" placeholder="Количество ордеров" name="level"
                            required>
                 </div>
                 <div class="mb-3">
-                    <label for="coefficient" class="form-label">Coefficient</label>
+                    <label for="coefficient" class="form-label">Количество Satoshi(XBT)</label>
                     <input type="text" class="form-control" id="coefficient" placeholder="Сумма ордера"
                            name="coefficient"
                            required>
                 </div>
-                <button type="submit" class="btn btn-primary">Start new bot</button>
+                <div class="mb-3">
+                    <label for="strategy" class="form-label">Стратегия</label>
+                    <select class="form-select" id="strategy" name="strategy">
+                        <option th:each="strategy : ${strategies}" th:value="${strategy}"
+                                th:text="${strategy}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Создать бота</button>
             </form>
         </div>
     </div>
     <div th:each="bot : ${botList}" class="text-bg-dark p-3" style="position: relative;">
         <div style="text-align: center; color: white;">
             <h1 style="font-size: 1rem">Bot №<span
-                    th:text="${bot.getId()}"
+                    th:text="${bot.id()}"
                     style="font-size: 22px; margin-bottom: 8px; margin-top: 8px;"></span> Started!</h1>
         </div>
         <div class="container wrap-btn" style="text-align: center; color: white;  margin-bottom: 40px">
-            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">API key is : <span
-                    th:text="${bot.getBitmexBotData().getKey()}"
+            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">API ключ: <span
+                    th:text="${bot.bitmexBotData().getKey()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
-            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Client name : <span
-                    th:text="${bot.getBitmexBotData().getUserName()}"
+            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Имя клиента: <span
+                    th:text="${bot.bitmexBotData().getUserName()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
-            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Client email : <span
-                    th:text="${bot.getBitmexBotData().getUserEmail()}"
+            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Шаг цены ордеров: <span
+                    th:text="${bot.bitmexBotData().getStep()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
-            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Client account : <span
-                    th:text="${bot.getBitmexBotData().getUserAccount()}"
+            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Валюта клиента: <span
+                    th:text="${bot.bitmexBotData().getUserCurrency()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
-            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Client currency : <span
-                    th:text="${bot.getBitmexBotData().getUserCurrency()}"
+            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Рыночная цена покупки: <span
+                    th:text="${bot.bitmexBotData().getLastBuy()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
-            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Last Market Buy : <span
-                    th:text="${bot.getBitmexBotData().getLastBuy()}"
+            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Рыночная цена продажи: <span
+                    th:text="${bot.bitmexBotData().getLastSell()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
-            <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Last Market Sell : <span
-                    th:text="${bot.getBitmexBotData().getLastSell()}"
-                    style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
-            <div th:each="bitmexOrder : ${bot.getBitmexOrders()}" class="text-bg-dark orders">
+            <div th:each="bitmexOrder : ${bot.bitmexOrders()}" class="text-bg-dark orders">
                 <h1 style="font-size: 1rem">Order placed:</h1>
                 <h3 style="text-align: left; font-size: 16px; margin-bottom: 20px">Order id : <span
                         th:text="${bitmexOrder.getId()}"
@@ -86,12 +90,14 @@
         </div>
         <div style="display: flex; justify-content: space-between">
             <form method="post" action="http://localhost:8080/bot">
-                <button style="display: inline-block; margin-right: 10px" class="btn btn-primary btn-stop" type="submit" name="id" th:value="${bot.getId()}">Stop the
-                    bot
+                <button style="display: inline-block; margin-right: 10px" class="btn btn-primary btn-stop"
+                        type="submit" name="id" th:value="${bot.id()}">Удалить бота
                 </button>
             </form>
             <form method="get" action="http://localhost:8080/bot">
-                <button style="display: inline-block; margin-right: 10px" class="btn btn-primary btn-refresh" type="submit">Refresh</button>
+                <button style="display: inline-block; margin-right: 10px" class="btn btn-primary btn-refresh"
+                        type="submit">Обновить ордера
+                </button>
             </form>
         </div>
     </div>
