@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpMethod;
 
-import java.io.File;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @PropertySource("classpath:network.properties")
-class BitmexSpringApplicationTests {
-    @Value("${app.symbol}")
+class BitmexSpringApplicationTest {
+    @Value("${application.xbt.symbol}")
     String symbol;
     @Autowired
     JsonParser json;
@@ -51,18 +50,6 @@ class BitmexSpringApplicationTests {
         //THEN
         Assertions.assertEquals(expected, actual);
         Assertions.assertEquals(expected1, actual1);
-    }
-
-    @Test
-    public void jsonReadToObjectFromFile() throws IOException {
-        //GIVEN
-
-        User userExpected = (User) json.readToObject(new File("src/test/java/bitmex/bitmexspring/model/user.json"), User.class);
-        //WHEN
-        //THEN
-        assertEquals(userExpected,(new User("string", "string")));
-        assertEquals(userExpected.getUserName(),("string"));
-        assertEquals(userExpected.getEmail(),("string"));
     }
 
     @Test

@@ -10,10 +10,7 @@ import bitmexbot.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,8 +66,8 @@ public class BotController {
         return "home";
     }
     @DeleteMapping("/bot/{id}")
-    public String deleteBot(@RequestParam int botId, Model model){
-        botRepo.deleteByBotId(botId);
+    public String deleteBot( @PathVariable int id, Model model){
+        botRepo.deleteByBotId(id);
         model.addAttribute("botList", BotDTOList.of(botRepo.findBotWithOrders()));
         return "home";
     }

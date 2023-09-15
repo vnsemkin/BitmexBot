@@ -20,7 +20,7 @@ public interface BotRepo extends JpaRepository<BitmexBot, Long> {
     @Modifying
     @Transactional
     @Query("DELETE FROM BitmexBot bb WHERE bb.botId =:botId")
-    void deleteByBotId(@Param("botId") int botId);
+    void deleteByBotId(@Param("botId") int id);
 
     @Transactional
     @Query("SELECT b FROM BitmexBot b " +
@@ -35,8 +35,8 @@ public interface BotRepo extends JpaRepository<BitmexBot, Long> {
 
     @Modifying
     @Transactional
-    default BitmexBot updateBot(BitmexBot bitmexBot) {
-        return this.saveAndFlush(bitmexBot);
+    default void updateBot(BitmexBot bitmexBot) {
+        this.saveAndFlush(bitmexBot);
     }
 
     @Transactional
