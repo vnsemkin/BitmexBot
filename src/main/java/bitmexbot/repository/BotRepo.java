@@ -15,12 +15,10 @@ import java.util.Optional;
 public interface BotRepo extends JpaRepository<BitmexBot, Long> {
 
     @Transactional
-    BitmexBot findByBotId(int botId);
+    Optional<BitmexBot> findByBotId(int botId);
 
-    @Modifying
     @Transactional
-    @Query("DELETE FROM BitmexBot bb WHERE bb.botId =:botId")
-    void deleteByBotId(@Param("botId") int id);
+    void deleteByBotId(int id);
 
     @Transactional
     @Query("SELECT b FROM BitmexBot b " +
@@ -31,7 +29,7 @@ public interface BotRepo extends JpaRepository<BitmexBot, Long> {
 
     @Transactional
     @Query("SELECT b FROM BitmexBot b LEFT JOIN FETCH b.bitmexOrders")
-    List<BitmexBot> findBotWithOrders();
+    List<BitmexBot> findBotsWithOrders();
 
     @Modifying
     @Transactional

@@ -1,6 +1,7 @@
 package bitmexbot.entity;
 
 import bitmexbot.model.BitmexData;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,7 +17,8 @@ public class BitmexOrder implements BitmexData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bot_id")
     BitmexBot bitmexBot;
     @JsonProperty("orderID")

@@ -51,4 +51,28 @@ public class BotRepoTests {
         bitmexBot.setBotId(Integer.MAX_VALUE);
         return bitmexBot;
     }
+    @Test
+    public void shouldCascadeDeleteBotByBotIdAndOrders(){
+        //GIVEN
+        BitmexBot bitmexBot = new BitmexBot();
+        BitmexBotData bitmexBotData = new BitmexBotData();
+        Set<BitmexOrder> bitmexOrders = new HashSet<>();
+        BitmexOrder order = new BitmexOrder();
+        order.setPrice(1000);
+        order.setBitmexBot(bitmexBot);
+        order.setPrice(100);
+        bitmexOrders.add(order);
+        bitmexBot.setBotId(1);
+        bitmexBot.setBitmexBotData(bitmexBotData);
+        //WHEN
+        BitmexBot actualBot = botRepo.createBot(bitmexBot);
+        botRepo.deleteByBotId(actualBot.getBotId());
+        //THEN
+        Assertions.assertEquals(bitmexBot, actualBot);
+    }
+    @Test
+    public void myOwnTest(){
+        botRepo.deleteByBotId(1);
+    }
+
 }

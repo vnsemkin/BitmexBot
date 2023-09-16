@@ -18,6 +18,7 @@ public class BitmexConstants {
     public static final String API_KEY = "api-key";
     public static final String API_SIGNATURE = "api-signature";
     public static final String GET_REAL_TIME = "GET/realtime";
+    public static final String APP_JSON = "application/json";
     public static final String ORDER_ID = "orderID";
     public static final int TIMEOUT_500 = 500;
 }

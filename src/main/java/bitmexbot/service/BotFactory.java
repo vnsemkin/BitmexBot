@@ -18,14 +18,12 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class BotFactory {
     @Value("${bitmex.websocket.url}")
-    private static String WS_URL;
+    private String WS_URL;
     private final OrderHandler orderHandler;
     private final JsonParser json;
     private final WebSocketHandler webSocketHandler;
@@ -50,8 +48,14 @@ public class BotFactory {
     }
 
     public List<BitmexBot> deleteBot(int id) {
-        botRepo.deleteByBotId(id);
-        return botRepo.findAll();
+        Optional<BitmexBot> botById = botRepo.findByBotId(id);
+        if(botById.isPresent()) {
+            BitmexBot bitmexBot = botById.get();
+            orderHandler.delete(bitmexBot);
+            botRepo.deleteByBotId(id);
+            return botRepo.findBotsWithOrders();
+        }
+        return new ArrayList<>();
     }
 
     private List<BitmexBot> createNewBot(BitmexBotData bitmexBotData

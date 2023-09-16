@@ -3,6 +3,7 @@ package bitmexbot.controller;
 import bitmexbot.config.Strategy;
 import bitmexbot.dto.BotDTO;
 import bitmexbot.dto.BotDTOList;
+import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.repository.BotRepo;
 import bitmexbot.service.BotFactory;
@@ -10,7 +11,10 @@ import bitmexbot.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,11 +42,11 @@ public class BotController {
     @GetMapping("/bot")
     public String getBots(Model model) {
         List<BotDTO> botList;
-        botList = BotDTOList.of(botRepo.findBotWithOrders());
+        botList = BotDTOList.of(botRepo.findBotsWithOrders());
         List<String> strategies = new ArrayList<>(Arrays.stream(Strategy.values())
                 .map(Strategy::getLabel)
                 .toList());
-        strategies.replaceAll(s->s.replaceAll("\\\\[|\\\\]",""));
+        strategies.replaceAll(s -> s.replaceAll("\\\\[|\\\\]", ""));
         model.addAttribute("strategies", strategies);
         model.addAttribute("botList", botList);
         return "home";
@@ -65,10 +69,11 @@ public class BotController {
         model.addAttribute("botList", botList);
         return "home";
     }
+
     @DeleteMapping("/bot/{id}")
-    public String deleteBot( @PathVariable int id, Model model){
-        botRepo.deleteByBotId(id);
-        model.addAttribute("botList", BotDTOList.of(botRepo.findBotWithOrders()));
+    public String deleteBot(@PathVariable int id, Model model) {
+        List<BitmexBot> botList = botFactory.deleteBot(id);
+        model.addAttribute("botList", BotDTOList.of(botList));
         return "home";
     }
 }

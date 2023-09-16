@@ -1,5 +1,6 @@
 package bitmexbot.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class BitmexBot {
     @OneToOne(cascade = CascadeType.ALL
             , orphanRemoval = true)
     private BitmexBotData bitmexBotData;
+    @JsonManagedReference
     @OneToMany(mappedBy = "bitmexBot", cascade = CascadeType.ALL
             , orphanRemoval = true)
     private Set<BitmexOrder> bitmexOrders;
