@@ -38,6 +38,10 @@ public class BotController {
         this.userInfoService = userInfoService;
         this.botRepo = botRepo;
     }
+    @GetMapping("/")
+    public String getIndexPage(){
+        return "redirect:/bot";
+    }
 
     @GetMapping("/bot")
     public String getBots(Model model) {
