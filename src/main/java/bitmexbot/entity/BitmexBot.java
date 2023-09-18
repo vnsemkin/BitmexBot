@@ -18,10 +18,10 @@ public class BitmexBot {
     @Column(name = "bot_id")
     private int botId;
     @OneToOne(cascade = CascadeType.ALL
-            , orphanRemoval = true)
+            , orphanRemoval = true, fetch = FetchType.EAGER)
     private BitmexBotData bitmexBotData;
     @JsonManagedReference
     @OneToMany(mappedBy = "bitmexBot", cascade = CascadeType.ALL
-            , orphanRemoval = true)
+            , orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<BitmexOrder> bitmexOrders;
 }

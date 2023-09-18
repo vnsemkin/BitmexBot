@@ -5,16 +5,15 @@ import bitmexbot.dto.BotDTO;
 import bitmexbot.dto.BotDTOList;
 import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexBotData;
+import bitmexbot.dto.UserBotParam;
 import bitmexbot.repository.BotRepo;
 import bitmexbot.service.BotFactory;
 import bitmexbot.service.UserInfoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,8 +37,9 @@ public class BotController {
         this.userInfoService = userInfoService;
         this.botRepo = botRepo;
     }
+
     @GetMapping("/")
-    public String getIndexPage(){
+    public String getIndexPage() {
         return "redirect:/bot";
     }
 
@@ -57,16 +57,15 @@ public class BotController {
     }
 
     @PostMapping("/bot")
-    public String postHandler(BitmexBotData bitmexBotData, Model model) {
+    public String createBot(@Valid @RequestBody UserBotParam userBotParam
+            , Model model) {
         //For test purpose only
-        bitmexBotData.setKey(key);
-        bitmexBotData.setSecret(secret);
+        userBotParam.setKey(key);
+        userBotParam.setSecret(secret);
         //
         List<BotDTO> botList;
         // Set User info and order book last buy and sell prices
-        bitmexBotData = userInfoService.getUserInfo(bitmexBotData);
-        //
-
+        BitmexBotData bitmexBotData = userInfoService.getUserInfo(userBotParam);
         // Get bots if they are
         botList = BotDTOList.of(botFactory
                 .createNewBot(bitmexBotData));

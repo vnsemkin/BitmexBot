@@ -3,6 +3,7 @@ package bitmexbot.service;
 
 import bitmexbot.config.BitmexConstants;
 import bitmexbot.config.BitmexEndpoints;
+import bitmexbot.dto.UserBotParam;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.model.*;
 import bitmexbot.output.BitmexFeignClient;
@@ -20,8 +21,17 @@ public class UserInfoService {
         this.bitmexFeignClient = bitmexFeignClient;
     }
 
-    public BitmexBotData getUserInfo(BitmexBotData bitmexBotData) {
+    public BitmexBotData getUserInfo(UserBotParam userBotParam) {
         String emptyData = "";
+        BitmexBotData bitmexBotData = new BitmexBotData();
+        // Set data from userBotParam
+        bitmexBotData.setKey(userBotParam.getKey());
+        bitmexBotData.setSecret(userBotParam.getSecret());
+        bitmexBotData.setLevel(userBotParam.getLevel());
+        bitmexBotData.setStep(userBotParam.getStep());
+        bitmexBotData.setCoefficient(userBotParam.getCoefficient());
+        bitmexBotData.setStrategy(userBotParam.getStrategy());
+        //
         APIAuthData authData = new APIAuthDataService()
                 .getAPIAutData(bitmexBotData, String.valueOf(HttpMethod.GET),
                         BitmexEndpoints.USER,
@@ -44,9 +54,9 @@ public class UserInfoService {
                 , quoteRequest.getCount()
                 , quoteRequest.isReverse());
 
+        // Set data from quote  response
         bitmexBotData.setLastBuy(quoteResponse.get(0).getLastBid());
         bitmexBotData.setLastSell(quoteResponse.get(0).getLastAsk());
-
         bitmexBotData.setUserName(user.getUserName());
         bitmexBotData.setUserEmail(user.getEmail());
         bitmexBotData.setUserAccount(userWallet.getAccount());

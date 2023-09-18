@@ -16,11 +16,11 @@ public class BitmexBotData {
     @Column(name = "bitmex_key")
     private String key;
     @Column(name = "bitmex_secret")
+    private String secret;
     private String userName;
     private String userEmail;
     private int userAccount;
     private String userCurrency;
-    private String secret;
     private Double step;
     private Integer level;
     private Double coefficient;
