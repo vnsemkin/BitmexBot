@@ -20,5 +20,6 @@ public class BitmexConstants {
     public static final String GET_REAL_TIME = "GET/realtime";
     public static final String APP_JSON = "application/json";
     public static final String ORDER_ID = "orderID";
+    public static final String BOT_DELETED = "Бот с ордерами успешно удален";
     public static final int TIMEOUT_500 = 500;
 }

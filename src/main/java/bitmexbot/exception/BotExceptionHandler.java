@@ -12,4 +12,9 @@ public class BotExceptionHandler {
     protected ResponseEntity<String> botNotFound(BotNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(ValidationErrorException.class)
+    protected ResponseEntity<String> validationError(ValidationErrorException ex){
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
+    }
 }

@@ -8,6 +8,7 @@ import bitmexbot.dto.UserBotParam;
 import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.exception.BotNotFoundException;
+import bitmexbot.exception.ValidationErrorException;
 import bitmexbot.repository.BotRepo;
 import bitmexbot.service.BotFactory;
 import bitmexbot.service.UserInfoService;
@@ -57,11 +58,11 @@ public class BotRestController {
     }
 
     @PostMapping(value = "/bot", produces = BitmexConstants.APP_JSON)
-    public ResponseEntity<Object> createBot(@Valid @RequestBody UserBotParam userBotParam
+    public ResponseEntity<List<BotDTO>> createBot(@Valid @RequestBody UserBotParam userBotParam
             , BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // Handle validation errors
-            return ResponseEntity.badRequest().body("Validation errors: " + bindingResult.getAllErrors());
+            throw new ValidationErrorException( "Validation errors: " + bindingResult.getAllErrors());
         }
         List<BotDTO> botList;
         // Set User info and order book last buy and sell prices
@@ -78,8 +79,8 @@ public class BotRestController {
     public ResponseEntity<String> deleteBot(@PathVariable int id) {
         botFactory.deleteBot(id);
         if (Objects.isNull(botRepo.findByBotId(id))) {
-            return ResponseEntity.ok().body("Бот с ордерами успешно удален");
+            return ResponseEntity.ok().body(BitmexConstants.BOT_DELETED);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Бот не найден");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Бот c id: "+id+ " не найден");
     }
 }
