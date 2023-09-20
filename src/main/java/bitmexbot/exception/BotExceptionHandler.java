@@ -1,5 +1,6 @@
 package bitmexbot.exception;
 
+import feign.FeignException;
 import jakarta.validation.UnexpectedTypeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +28,10 @@ public class BotExceptionHandler {
     @ExceptionHandler(UnexpectedTypeException.class)
     public ResponseEntity<String> handleUnexpectedTypeException(UnexpectedTypeException ex) {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<String> handleUnexpectedTypeException(FeignException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 }
