@@ -5,6 +5,8 @@ import bitmexbot.config.BitmexConstants;
 import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.entity.BitmexOrder;
+import bitmexbot.exception.BotNotCreated;
+import bitmexbot.exception.BotNotFoundException;
 import bitmexbot.model.APIAuthData;
 import bitmexbot.model.WSAuth;
 import bitmexbot.model.WSRequest;
@@ -53,7 +55,8 @@ public class BotFactory {
             BitmexBot bitmexBot = botById.get();
             orderHandler.delete(bitmexBot);
             botRepo.deleteByBotId(id);
-            return botRepo.findBotsWithOrders();
+            return botRepo.findBotsWithOrders()
+                    .orElseThrow(()-> new BotNotFoundException("Боты не найдены"));
         }
         return new ArrayList<>();
     }
@@ -66,7 +69,8 @@ public class BotFactory {
         bitmexBot.setBitmexBotData(bitmexBotData);
         bitmexBot.setBitmexOrders(bitmexOrders);
         //Put bot to DB
-        BitmexBot bot = botRepo.createBot(bitmexBot);
+        BitmexBot bot = botRepo.createBot(bitmexBot)
+                .orElseThrow(()->new BotNotCreated("Бот не создан"));
         // Add bot to bot list
         startBot(bot);
         return botRepo.findAll();

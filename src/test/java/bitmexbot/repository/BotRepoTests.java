@@ -27,7 +27,7 @@ public class BotRepoTests {
         List<BitmexBot> expectedBotList = botRepo.findAll();
         BitmexBot bitmexBot = getBitmexBot();
         //WHEN
-        BitmexBot botFromDB = botRepo.createBot(bitmexBot);
+        BitmexBot botFromDB = botRepo.createBot(bitmexBot).get();
         botRepo.deleteByBotId(botFromDB.getBotId());
         List<BitmexBot> actualBotList = botRepo.findAll();
         //THEN
@@ -65,7 +65,7 @@ public class BotRepoTests {
         bitmexBot.setBotId(1);
         bitmexBot.setBitmexBotData(bitmexBotData);
         //WHEN
-        BitmexBot actualBot = botRepo.createBot(bitmexBot);
+        BitmexBot actualBot = botRepo.createBot(bitmexBot).get();
         botRepo.deleteByBotId(actualBot.getBotId());
         //THEN
         Assertions.assertEquals(bitmexBot, actualBot);

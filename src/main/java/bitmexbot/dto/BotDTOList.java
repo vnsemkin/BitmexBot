@@ -6,11 +6,9 @@ import java.util.List;
 
 
 public class BotDTOList {
-    public static List<BotDTO> of(List<BitmexBot> botList){
+    public static List<BotDTO> of(List<BitmexBot> botList) {
         return botList.stream()
-                .map(b->new BotDTO(b.getBotId()
-                        , b.getBitmexBotData()
-                        , b.getBitmexOrders()))
+                .map(b -> new BotDTO().of(b))
                 .toList();
     }
 }

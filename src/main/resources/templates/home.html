@@ -56,32 +56,32 @@
     <div th:each="bot : ${botList}" class="text-bg-dark p-3" style="position: relative;">
         <div style="text-align: center; color: white;">
             <h1 style="font-size: 1rem">Bot №<span
-                    th:text="${bot.id()}"
+                    th:text="${bot.getId()}"
                     style="font-size: 22px; margin-bottom: 8px; margin-top: 8px;"></span> Started!</h1>
         </div>
         <div class="container wrap-btn" style="text-align: center; color: white;  margin-bottom: 40px">
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">API ключ: <span
-                    th:text="${bot.bitmexBotData().getKey()}"
+                    th:text="${bot.getBitmexBotData().getKey()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Имя клиента: <span
-                    th:text="${bot.bitmexBotData().getUserName()}"
+                    th:text="${bot.getBitmexBotData().getUserName()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Шаг цены ордеров: <span
-                    th:text="${bot.bitmexBotData().getStep()}"
+                    th:text="${bot.getBitmexBotData().getStep()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Кол-во ордеров: <span
-                    th:text="${bot.bitmexBotData().getLevel()}"
+                    th:text="${bot.getBitmexBotData().getLevel()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Валюта клиента: <span
-                    th:text="${bot.bitmexBotData().getUserCurrency()}"
+                    th:text="${bot.getBitmexBotData().getUserCurrency()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Рыночная цена покупки: <span
-                    th:text="${bot.bitmexBotData().getLastBuy()}"
+                    th:text="${bot.getBitmexBotData().getLastBuy()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Рыночная цена продажи: <span
-                    th:text="${bot.bitmexBotData().getLastSell()}"
+                    th:text="${bot.getBitmexBotData().getLastSell()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
-            <div th:each="bitmexOrder : ${bot.bitmexOrders()}" class="text-bg-dark orders">
+            <div th:each="bitmexOrder : ${bot.getBitmexOrders()}" class="text-bg-dark orders">
                 <h1 style="font-size: 1rem">Order placed:</h1>
                 <h3 style="text-align: left; font-size: 16px; margin-bottom: 20px">Order id : <span
                         th:text="${bitmexOrder.getId()}"
@@ -93,7 +93,7 @@
         </div>
         <div style="display: flex; justify-content: space-between">
             <form id="deleteBotForm" method="post" action="http://localhost:8080/bot/{id}">
-                <input type="hidden" id="botIdInput" name="id" th:value="${bot.id()}">
+                <input type="hidden" id="botIdInput" name="id" th:value="${bot.getId()}">
                 <button style="display: inline-block; margin-right: 10px" class="btn btn-danger btn-stop"
                         type="button" onclick="deleteBot()">Удалить бота
                 </button>

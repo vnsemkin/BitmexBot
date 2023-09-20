@@ -29,7 +29,7 @@ public interface BotRepo extends JpaRepository<BitmexBot, Long> {
 
     @Transactional
     @Query("SELECT b FROM BitmexBot b LEFT JOIN FETCH b.bitmexOrders")
-    List<BitmexBot> findBotsWithOrders();
+    Optional<List<BitmexBot>> findBotsWithOrders();
 
     @Modifying
     @Transactional
@@ -38,7 +38,7 @@ public interface BotRepo extends JpaRepository<BitmexBot, Long> {
     }
 
     @Transactional
-    default BitmexBot createBot(BitmexBot bitmexBot) {
-        return this.save(bitmexBot);
+    default Optional<BitmexBot> createBot(BitmexBot bitmexBot) {
+        return Optional.of(this.save(bitmexBot));
     }
 }
