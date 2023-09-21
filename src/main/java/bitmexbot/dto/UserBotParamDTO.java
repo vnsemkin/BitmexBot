@@ -29,5 +29,6 @@ public class UserBotParamDTO {
     public boolean isCoefficientMoreThatOneHundred() {
         return coefficient > 100;
         //onto feature_21_09
+        //new feature
     }
 }
