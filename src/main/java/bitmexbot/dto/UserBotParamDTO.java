@@ -20,4 +20,5 @@ public class UserBotParamDTO {
     private Integer level;
     private Double coefficient;
     private Strategy strategy;
+
 }
