@@ -28,5 +28,6 @@ public class UserBotParamDTO {
     @AssertTrue(message = "Coefficient must be more than 100 !")
     public boolean isCoefficientMoreThatOneHundred() {
         return coefficient > 100;
+        //onto feature_21_09
     }
 }
