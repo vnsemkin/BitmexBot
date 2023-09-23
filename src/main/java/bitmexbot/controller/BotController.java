@@ -61,7 +61,6 @@ public class BotController {
     @PostMapping("/bot")
     public String createBot(@Valid UserBotParamDTO userBotParamDTO
             , Model model) {
-        //For test purpose only
         userBotParamDTO.setKey(key);
         userBotParamDTO.setSecret(secret);
         //

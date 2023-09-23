@@ -25,8 +25,8 @@ public class UserBotParamDTO {
     @NotNull
     private Strategy strategy;
 
-    @AssertTrue(message = "Coefficient must be more than 100 !")
+    @AssertTrue(message = "Coefficient must be more than 99 !")
     public boolean isCoefficientMoreThatOneHundred() {
-        return coefficient > 100;
+        return coefficient > 99;
     }
 }

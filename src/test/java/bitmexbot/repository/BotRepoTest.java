@@ -11,10 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 @SpringBootTest
-public class BotRepoTests {
+public class BotRepoTest {
     @Autowired
     BotRepo botRepo;
     @Autowired
@@ -69,10 +70,7 @@ public class BotRepoTests {
         botRepo.deleteByBotId(actualBot.getBotId());
         //THEN
         Assertions.assertEquals(bitmexBot, actualBot);
+        Assertions.assertThrows(NoSuchElementException.class
+                , () -> botRepo.findById(actualBot.getId()).get());
     }
-    @Test
-    public void myOwnTest(){
-        botRepo.deleteByBotId(1);
-    }
-
 }

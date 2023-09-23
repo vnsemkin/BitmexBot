@@ -14,6 +14,7 @@ import bitmexbot.network.WebSocketHandler;
 import bitmexbot.repository.BotRepo;
 import bitmexbot.util.authorization.APIAuthDataService;
 import bitmexbot.util.json.JsonParser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
@@ -22,6 +23,7 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 import java.util.*;
 
+@Slf4j
 @Service
 public class BotFactory {
     @Value("${bitmex.websocket.url}")

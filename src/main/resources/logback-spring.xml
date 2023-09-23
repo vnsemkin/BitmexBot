@@ -5,8 +5,8 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
-    <appender name="MyTestAppender" class="ch.qos.logback.core.FileAppender">
-        <file>/home/normat/IdeaProjects/BitmexBot/logs/application.log</file>
+    <appender name="AspectAppender" class="ch.qos.logback.core.FileAppender">
+        <file>/home/normat/IdeaProjects/BitmexBot/logs/bot_application.log</file>
         <append>true</append>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
@@ -21,13 +21,20 @@
     <logger name="bitmexbot.network.WebSocketHandler" level="DEBUG" additivity="false">
         <appender-ref ref="ClassAppender"/>
     </logger>
+    <logger name="bitmexbot.service.BotFactory" level="DEBUG" additivity="false">
+        <appender-ref ref="AspectAppender"/>
+    </logger>
+
+    <logger name="bitmexbot.aspect.LoggingAspect" level="DEBUG" additivity="false">
+        <appender-ref ref="ClassAppender"/>
+    </logger>
 
     <logger name="bitmexbot.network.WebSocketHandler" level="DEBUG" additivity="false">
         <appender-ref ref="ConsoleAppender"/>
     </logger>
 
-    <logger name="bitmexbot.aspect.LoggingAspect" level="INFO" additivity="false">
-        <appender-ref ref="MyTestAppender"/>
+    <logger name="bitmexbot.aspect.LoggingAspect" level="DEBUG" additivity="false">
+        <appender-ref ref="AspectAppender"/>
     </logger>
 
     <root level="INFO">
