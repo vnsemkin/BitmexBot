@@ -7,5 +7,4 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @Configuration
 @EnableAspectJAutoProxy
 @ComponentScan(basePackages = {"bitmexbot"})
-public class BitmexBotConfiguration {
-}
+public class BitmexBotConfiguration {}
