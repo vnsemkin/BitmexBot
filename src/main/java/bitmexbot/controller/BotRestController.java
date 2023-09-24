@@ -1,11 +1,13 @@
 package bitmexbot.controller;
 
 
+import bitmexbot.aspect.Logging;
 import bitmexbot.config.BitmexConstants;
 import bitmexbot.dto.BotDTO;
 import bitmexbot.dto.BotDTOList;
 import bitmexbot.dto.UserBotParamDTO;
 import bitmexbot.entity.BitmexBotData;
+import bitmexbot.exception.BotNotFoundException;
 import bitmexbot.exception.ValidationErrorException;
 import bitmexbot.repository.BotRepoService;
 import bitmexbot.service.BotFactory;
@@ -34,6 +36,7 @@ public class BotRestController {
         this.userInfoService = userInfoService;
     }
 
+    @Logging(message = "Get request")
     @GetMapping(value = "/bot", produces = BitmexConstants.APP_JSON)
     public ResponseEntity<List<BotDTO>> getBotList() {
         return ResponseEntity.ok()
@@ -42,7 +45,13 @@ public class BotRestController {
 
     @GetMapping(value = "/bot/{id}", produces = BitmexConstants.APP_JSON)
     public ResponseEntity<BotDTO> getBotById(@PathVariable int id) {
-        return ResponseEntity.ok().body(botRepoService.findByBotId(id));
+        BotDTO byBotId = botRepoService.findByBotId(id);
+        if (Objects.nonNull(byBotId)) {
+            return ResponseEntity.ok().body(botRepoService.findByBotId(id));
+        } else {
+            throw new BotNotFoundException("Бот с id: " + id + " не найден");
+        }
+
     }
 
     @PostMapping(value = "/bot", produces = BitmexConstants.APP_JSON)

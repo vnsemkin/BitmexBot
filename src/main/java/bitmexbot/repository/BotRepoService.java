@@ -18,9 +18,8 @@ public class BotRepoService {
 
 
     public BotDTO findByBotId(int botId) {
-        return botRepo.findByBotId(botId)
-                .map(b -> new BotDTO().of(b))
-                .orElseThrow(() -> new BotNotFoundException("Бот с id: " + botId + "не найден"));
+       return botRepo.findByBotId(botId)
+                .map(b -> new BotDTO().of(b)).orElse(null);
     }
 
 

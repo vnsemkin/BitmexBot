@@ -1,5 +1,6 @@
 package bitmexbot.service;
 
+import bitmexbot.aspect.Logging;
 import bitmexbot.config.BitmexConstants;
 import bitmexbot.config.BitmexEndpoints;
 import bitmexbot.entity.BitmexBot;
@@ -33,7 +34,7 @@ public class OrderHandler {
         this.botRepo = botRepo;
     }
 
-
+    @Logging(message = "Initial buy")
     public void initialBuy(BitmexBot bitmexBot) {
         Set<BitmexOrder> orders = bitmexBot.getBitmexOrders();
         BitmexBotData bitmexBotData = bitmexBot.getBitmexBotData();

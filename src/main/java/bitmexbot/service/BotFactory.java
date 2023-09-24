@@ -1,6 +1,6 @@
 package bitmexbot.service;
 
-import bitmexbot.aspect.BitmexLog;
+import bitmexbot.aspect.Logging;
 import bitmexbot.config.BitmexConstants;
 import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexBotData;
@@ -14,7 +14,6 @@ import bitmexbot.network.WebSocketHandler;
 import bitmexbot.repository.BotRepo;
 import bitmexbot.util.authorization.APIAuthDataService;
 import bitmexbot.util.json.JsonParser;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
@@ -23,7 +22,6 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 import java.util.*;
 
-@Slf4j
 @Service
 public class BotFactory {
     @Value("${bitmex.websocket.url}")
@@ -51,6 +49,7 @@ public class BotFactory {
         return createNewBot(bitmexBotData, botList);
     }
 
+    @Logging(message = "Bot was deleted")
     public List<BitmexBot> deleteBot(int id) {
         Optional<BitmexBot> botById = botRepo.findByBotId(id);
         if(botById.isPresent()) {
@@ -85,12 +84,11 @@ public class BotFactory {
                 .orElse(0) + 1;
     }
 
-    @BitmexLog(message = "New Bot Started")
     public void startBot(BitmexBot bitmexBot) {
         orderHandler.initialBuy(bitmexBot);
     }
 
-    @BitmexLog(message = "WebSocket started")
+    @Logging(message = "WebSocket Started")
     private void wsStart(BitmexBotData bitmexBotData) {
         try {
             APIAuthData wsAuthData = new APIAuthDataService().getAPIAutDataWS(bitmexBotData.getKey()
@@ -109,7 +107,7 @@ public class BotFactory {
                     .writeToString(new WSRequest(command, List.of(BitmexConstants.ORDER)))));
             Thread.sleep(BitmexConstants.TIMEOUT_500);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 }

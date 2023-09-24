@@ -1,0 +1,37 @@
+<configuration>
+    <!-- Service Logger -->
+    <appender name="ServiceFileAppender" class="ch.qos.logback.core.FileAppender">
+        <file>logs/service_log.log</file>
+        <encoder>
+            <pattern>%d [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="bitmexbot.aspect.LoggingAspect" level="INFO">
+        <appender-ref ref="ServiceFileAppender"/>
+    </logger>
+
+    <!-- Order Logger -->
+    <appender name="OrderFileAppender" class="ch.qos.logback.core.FileAppender">
+        <file>logs/orders_log.log</file>
+        <encoder>
+            <pattern>%d [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="bitmexbot.aspect.LoggingAspect" level="INFO">
+        <appender-ref ref="OrderFileAppender"/>
+    </logger>
+
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root logger (if needed) -->
+    <root level="INFO">
+        <appender-ref ref="consoleAppender"/>
+        <appender-ref ref="consoleAppender"/>
+    </root>
+</configuration>
