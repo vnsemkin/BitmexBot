@@ -11,4 +11,5 @@ public class APIAuthData {
     private String apiKey;
     private long apiExpires;
     private String apiSignature;
+
 }

@@ -37,4 +37,5 @@ public class BitmexOrder implements BitmexData {
     @JsonProperty("ordStatus")
     private String ordStatus;
     private double filledPrice;
+
 }

@@ -10,4 +10,5 @@ import java.util.List;
 public class WSRequest implements BitmexData {
     private String op;
     private List<?> args;
+
 }

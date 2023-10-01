@@ -51,4 +51,5 @@ public class BotExceptionHandler {
     public ResponseEntity<String> handleUnexpectedTypeException(HttpMessageNotReadableException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+
 }

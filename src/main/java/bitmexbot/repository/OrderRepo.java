@@ -7,4 +7,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface OrderRepo extends JpaRepository<BitmexOrder, Long> {
     BitmexOrder findByOrderId(String ordId);
+
 }

@@ -153,4 +153,5 @@ public class WebSocketHandler extends TextWebSocketHandler {
         long pingInterval = 5000;
         taskScheduler.scheduleAtFixedRate(this::sendPingMessage, pingInterval);
     }
+
 }

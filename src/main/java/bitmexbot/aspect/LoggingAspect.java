@@ -15,4 +15,5 @@ public class LoggingAspect {
     public void logging(Logging logging){
         log.info(logging.message());
     }
+
 }

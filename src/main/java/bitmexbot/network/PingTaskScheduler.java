@@ -13,6 +13,7 @@ public class PingTaskScheduler {
     }
 
     public ThreadPoolTaskScheduler getTaskScheduler() {
+
         return taskScheduler;
     }
 }

@@ -11,4 +11,5 @@ public class BotDTOList {
                 .map(b -> new BotDTO().of(b))
                 .toList();
     }
+
 }

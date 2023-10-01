@@ -12,4 +12,5 @@ public class BitmexSpringApplication {
     public static void main(String[] args) {
         SpringApplication.run(BitmexBotConfiguration.class, args);
     }
+
 }

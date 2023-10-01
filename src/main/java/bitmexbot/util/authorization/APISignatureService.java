@@ -16,4 +16,5 @@ public class APISignatureService {
     private static String hmacWithApacheCommons(String data, String key) {
         return new HmacUtils(HmacAlgorithms.HMAC_SHA_256, key).hmacHex(data);
     }
+
 }

@@ -22,5 +22,6 @@ public class BotDTO {
         botDTO.setBitmexOrders(bitmexBot.getBitmexOrders());
         return botDTO;
     }
+
 }
 

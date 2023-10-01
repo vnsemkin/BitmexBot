@@ -17,5 +17,6 @@ public class StrategyConverter implements Converter<String, Strategy> {
         }
         throw new IllegalArgumentException("Invalid Strategy: " + source);
     }
+
 }
 

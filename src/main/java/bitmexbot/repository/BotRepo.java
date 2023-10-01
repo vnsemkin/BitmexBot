@@ -41,4 +41,5 @@ public interface BotRepo extends JpaRepository<BitmexBot, Long> {
     default Optional<BitmexBot> createBot(BitmexBot bitmexBot) {
         return Optional.of(this.save(bitmexBot));
     }
+
 }

@@ -80,5 +80,6 @@ public class BotController {
         model.addAttribute("botList", botList);
         return "home";
     }
+
 }
 

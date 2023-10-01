@@ -43,4 +43,5 @@ public interface BitmexFeignClient {
                                   @RequestHeader(BitmexConstants.API_KEY) String key,
                                   @RequestHeader(BitmexConstants.API_SIGNATURE) String signature,
                                   @RequestBody Map<String, Set<String>> map);
+
 }

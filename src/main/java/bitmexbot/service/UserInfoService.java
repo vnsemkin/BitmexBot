@@ -64,4 +64,5 @@ public class UserInfoService {
         bitmexBotData.setCoefficient(bitmexBotData.getCoefficient() * 10000);
         return bitmexBotData;
     }
+
 }

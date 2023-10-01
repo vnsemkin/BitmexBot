@@ -14,4 +14,5 @@ public class WSOrderStatus implements BitmexData {
     private String action;
     @JsonProperty("data")
     private List<BitmexOrder> bitmexOrder;
+
 }

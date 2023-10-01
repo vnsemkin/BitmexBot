@@ -13,4 +13,5 @@ public class User implements BitmexData {
     private String userName;
     @JsonProperty("email")
     private String email;
+
 }
