@@ -22,5 +22,4 @@ public class BitmexConstants {
     public static final String ORDER_ID = "orderID";
     public static final String BOT_DELETED = "Бот с ордерами успешно удален";
     public static final int TIMEOUT_500 = 500;
-
 }

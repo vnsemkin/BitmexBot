@@ -13,7 +13,6 @@ public enum Strategy {
     }
 
     public static String getLabel(Strategy strategy) {
-
         return strategyLabels.get(strategy);
     }
 }

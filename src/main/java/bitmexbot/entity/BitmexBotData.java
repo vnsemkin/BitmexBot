@@ -28,5 +28,4 @@ public class BitmexBotData {
     private double lastSell;
     @Enumerated(EnumType.STRING)
     private Strategy strategy;
-
 }

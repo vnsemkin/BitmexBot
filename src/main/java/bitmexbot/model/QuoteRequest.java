@@ -18,5 +18,4 @@ public class QuoteRequest {
     double count;
     @JsonProperty("reverse")
     boolean reverse;
-
 }

@@ -28,6 +28,5 @@ public class BitmexErrorController implements ErrorController {
         }
         return "error";
     }
-
 }
 

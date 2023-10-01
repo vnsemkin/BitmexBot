@@ -29,5 +29,4 @@ public class UserBotParamDTO {
     public boolean isCoefficientMoreThatOneHundred() {
         return coefficient > 99;
     }
-
 }

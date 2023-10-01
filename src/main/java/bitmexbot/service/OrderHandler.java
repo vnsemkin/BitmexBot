@@ -106,5 +106,4 @@ public class OrderHandler {
                 , authData.getApiKey(),
                 authData.getApiSignature(), bitmexOrder);
     }
-
 }

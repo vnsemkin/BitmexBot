@@ -80,5 +80,4 @@ public class BotRestController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Бот c id: " + id + " не найден");
     }
-
 }

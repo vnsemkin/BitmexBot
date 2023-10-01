@@ -25,5 +25,4 @@ public class APIAuthDataService {
     private long getExpires() {
         return System.currentTimeMillis() / 1000 + 60;
     }
-
 }

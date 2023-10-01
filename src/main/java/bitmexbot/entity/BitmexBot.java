@@ -24,5 +24,4 @@ public class BitmexBot {
     @OneToMany(mappedBy = "bitmexBot", cascade = CascadeType.ALL
             , orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<BitmexOrder> bitmexOrders;
-
 }

@@ -13,5 +13,4 @@ public class QuoteResponse {
     int lastBid;
     @JsonProperty("askPrice")
     int lastAsk;
-
 }

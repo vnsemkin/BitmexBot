@@ -21,5 +21,4 @@ public class FeignClientConf {
             requestTemplate.header("Accept", "application/json");
         };
     }
-
 }

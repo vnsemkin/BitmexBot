@@ -9,5 +9,4 @@ public class UserWallet implements BitmexData {
     private int account;
     @JsonProperty("currency")
     private String currency;
-
 }

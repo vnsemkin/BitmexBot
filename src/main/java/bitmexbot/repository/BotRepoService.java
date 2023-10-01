@@ -55,5 +55,4 @@ public class BotRepoService {
         List<BitmexBot> allBots = botRepo.findAll();
         return allBots.stream().map(b -> new BotDTO().of(b)).toList();
     }
-
 }

@@ -12,7 +12,6 @@ public class WSAuth implements BitmexData {
     private List<?> args;
 
     public WSAuth(List<?> args) {
-
         this.args = args;
     }
 }
