@@ -10,7 +10,7 @@ import bitmexbot.model.APIAuthData;
 import bitmexbot.repository.BotRepo;
 import bitmexbot.util.authorization.APIAuthDataService;
 import bitmexbot.util.json.JsonParser;
-import bitmexbot.output.BitmexFeignClient;
+import bitmexbot.network.BitmexFeignClient;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 

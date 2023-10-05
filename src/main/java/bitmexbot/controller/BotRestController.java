@@ -71,7 +71,6 @@ public class BotRestController {
         return ResponseEntity.ok()
                 .body(botList);
     }
-
     @DeleteMapping("/bot/{id}")
     public ResponseEntity<String> deleteBot(@PathVariable int id) {
         botFactory.deleteBot(id);

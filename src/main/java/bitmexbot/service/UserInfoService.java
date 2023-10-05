@@ -6,7 +6,7 @@ import bitmexbot.config.BitmexEndpoints;
 import bitmexbot.dto.UserBotParamDTO;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.model.*;
-import bitmexbot.output.BitmexFeignClient;
+import bitmexbot.network.BitmexFeignClient;
 import bitmexbot.util.authorization.APIAuthDataService;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;

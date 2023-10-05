@@ -1,0 +1,62 @@
+{
+  "id": 0,
+  "ownerId": 0,
+  "firstname": "string",
+  "lastname": "string",
+  "username": "string",
+  "email": "string",
+  "dateOfBirth": "string",
+  "phone": "string",
+  "created": "2023-02-15T08:23:37.651Z",
+  "lastUpdated": "2023-02-15T08:23:37.651Z",
+  "preferences": {
+    "alertOnLiquidations": true,
+    "animationsEnabled": true,
+    "announcementsLastSeen": "2023-02-15T08:23:37.651Z",
+    "chatChannelID": 0,
+    "colorTheme": "string",
+    "currency": "string",
+    "debug": true,
+    "disableEmails": [
+      "string"
+    ],
+    "disablePush": [
+      "string"
+    ],
+    "hideConfirmDialogs": [
+      "string"
+    ],
+    "hideConnectionModal": true,
+    "hideFromLeaderboard": false,
+    "hideNameFromLeaderboard": true,
+    "hideNotifications": [
+      "string"
+    ],
+    "hidePhoneConfirm": false,
+    "locale": "en-US",
+    "msgsSeen": [
+      "string"
+    ],
+    "orderBookBinning": {},
+    "orderBookType": "string",
+    "orderClearImmediate": false,
+    "orderControlsPlusMinus": true,
+    "showLocaleNumbers": true,
+    "sounds": [
+      "string"
+    ],
+    "strictIPCheck": false,
+    "strictTimeout": true,
+    "tickerGroup": "string",
+    "tickerPinned": true,
+    "tradeLayout": "string"
+  },
+  "TFAEnabled": "string",
+  "affiliateID": "string",
+  "country": "string",
+  "geoipCountry": "string",
+  "geoipRegion": "string",
+  "firstTradeTimestamp": "2023-02-15T08:23:37.652Z",
+  "typ": "string"
+}
+

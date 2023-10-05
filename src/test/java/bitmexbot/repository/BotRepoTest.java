@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class BotRepoTest {
     @Autowired
     BotRepo botRepo;
@@ -52,6 +54,7 @@ public class BotRepoTest {
         bitmexBot.setBotId(Integer.MAX_VALUE);
         return bitmexBot;
     }
+
     @Test
     public void shouldCascadeDeleteBotByBotIdAndOrders(){
         //GIVEN

@@ -10,8 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpMethod;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import java.io.IOException;
 
@@ -19,7 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest
+@ComponentScan(basePackages = {"bitmexbot"})
+@ActiveProfiles("test")
 @PropertySource("classpath:network.properties")
+@TestPropertySource(locations = "classpath:application-test_no_sql.properties")
 class BitmexSpringApplicationTest {
     @Value("${application.xbt.symbol}")
     String symbol;

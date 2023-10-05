@@ -1,4 +1,4 @@
-package bitmexbot.output;
+package bitmexbot.network;
 
 import bitmexbot.config.BitmexConstants;
 import bitmexbot.config.BitmexEndpoints;
