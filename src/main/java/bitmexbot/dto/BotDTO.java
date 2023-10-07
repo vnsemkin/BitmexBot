@@ -15,7 +15,7 @@ public class BotDTO {
     private BitmexBotData bitmexBotData;
     private Set<BitmexOrder> bitmexOrders;
 
-    public BotDTO of(BitmexBot bitmexBot) {
+    public static BotDTO of(BitmexBot bitmexBot) {
         BotDTO botDTO = new BotDTO();
         botDTO.setId(bitmexBot.getBotId());
         botDTO.setBitmexBotData(bitmexBot.getBitmexBotData());

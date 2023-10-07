@@ -1,6 +1,5 @@
 package bitmexbot.repository;
 
-import bitmexbot.dto.BotDTO;
 import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.entity.BitmexOrder;
@@ -16,7 +15,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 
@@ -29,14 +27,13 @@ public class BotRepoServiceTest {
     BotRepoService botRepoService;
 
     @SpyBean
-    private BotRepo botRepoMock;
+    private BotRepoService botRepoMock;
 
     @Test
-    public void should_return_Bot_DTO_By_BotId(){
-        Mockito.when(botRepoMock.findByBotId(1)).thenReturn(Optional.of(getBitmexBot()));
-        BotDTO byBotId = botRepoService.findByBotId(1);
-
-        Assertions.assertNotNull(byBotId);
+    public void should_return_Bot_DTO_By_BotId() {
+        Mockito.when(botRepoMock.findByBotId(1)).thenReturn(getBitmexBot());
+        BitmexBot botById = botRepoService.findByBotId(1);
+        Assertions.assertNotNull(botById);
         Mockito.verify(botRepoMock, Mockito.times(1)).findByBotId(1);
     }
 

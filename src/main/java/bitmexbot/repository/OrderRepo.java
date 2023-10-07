@@ -2,9 +2,9 @@ package bitmexbot.repository;
 
 import bitmexbot.entity.BitmexOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+import java.util.Optional;
+
 public interface OrderRepo extends JpaRepository<BitmexOrder, Long> {
-    BitmexOrder findByOrderId(String ordId);
+    Optional<BitmexOrder> findByOrderId(String ordId);
 }

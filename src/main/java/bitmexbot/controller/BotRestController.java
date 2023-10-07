@@ -1,11 +1,10 @@
 package bitmexbot.controller;
 
-
-import bitmexbot.aspect.Logging;
 import bitmexbot.config.BitmexConstants;
 import bitmexbot.dto.BotDTO;
 import bitmexbot.dto.BotDTOList;
 import bitmexbot.dto.UserBotParamDTO;
+import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.exception.BotNotFoundException;
 import bitmexbot.exception.ValidationErrorException;
@@ -17,9 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Objects;
+
 
 @RestController
 @RequestMapping("/rest")
@@ -36,22 +35,22 @@ public class BotRestController {
         this.userInfoService = userInfoService;
     }
 
-    @Logging(message = "Get request")
     @GetMapping(value = "/bot", produces = BitmexConstants.APP_JSON)
     public ResponseEntity<List<BotDTO>> getBotList() {
+        List<BitmexBot> bitmexBots = botRepoService.findBotsWithOrders();
+
         return ResponseEntity.ok()
-                .body(botRepoService.findBotsWithOrders());
+                .body(BotDTOList.of(bitmexBots));
     }
 
     @GetMapping(value = "/bot/{id}", produces = BitmexConstants.APP_JSON)
     public ResponseEntity<BotDTO> getBotById(@PathVariable int id) {
-        BotDTO byBotId = botRepoService.findByBotId(id);
-        if (Objects.nonNull(byBotId)) {
-            return ResponseEntity.ok().body(botRepoService.findByBotId(id));
+        BitmexBot botByBotId = botRepoService.findByBotId(id);
+        if (botByBotId.getBotId() != 0) {
+            return ResponseEntity.ok().body(BotDTO.of(botByBotId));
         } else {
             throw new BotNotFoundException("Бот с id: " + id + " не найден");
         }
-
     }
 
     @PostMapping(value = "/bot", produces = BitmexConstants.APP_JSON)
@@ -61,19 +60,18 @@ public class BotRestController {
             // Handle validation errors
             throw new ValidationErrorException("Validation errors: " + bindingResult.getAllErrors());
         }
-        List<BotDTO> botList;
         // Set User info and order book last buy and sell prices
         BitmexBotData bitmexBotData = userInfoService.getUserInfo(userBotParamDTO);
         //
         // Get bots if they are
-        botList = BotDTOList.of(botFactory
-                .createNewBot(bitmexBotData));
+        List<BitmexBot> botList = botFactory
+                .createNewBot(bitmexBotData);
         return ResponseEntity.ok()
-                .body(botList);
+                .body(BotDTOList.of(botList));
     }
     @DeleteMapping("/bot/{id}")
     public ResponseEntity<String> deleteBot(@PathVariable int id) {
-        botFactory.deleteBot(id);
+        botFactory.removeBot(id);
         if (Objects.isNull(botRepoService.findByBotId(id))) {
             return ResponseEntity.ok().body(BitmexConstants.BOT_DELETED);
         }

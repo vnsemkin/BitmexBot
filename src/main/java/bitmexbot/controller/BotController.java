@@ -47,8 +47,7 @@ public class BotController {
 
     @GetMapping("/bot")
     public String getBots(Model model) {
-        List<BotDTO> botList;
-        botList = botRepoService.findAll();
+        List<BotDTO> botList = BotDTOList.of(botRepoService.findAll());
         List<String> strategies = new ArrayList<>(Arrays.stream(Strategy.values())
                 .map(Strategy::getLabel)
                 .toList());
@@ -65,18 +64,20 @@ public class BotController {
         userBotParamDTO.setSecret(secret);
         //
         List<BotDTO> botList;
+
         // Set User info and order book last buy and sell prices
         BitmexBotData bitmexBotData = userInfoService.getUserInfo(userBotParamDTO);
         // Get bots if they are
         botList = BotDTOList.of(botFactory
                 .createNewBot(bitmexBotData));
+
         model.addAttribute("botList", botList);
         return "home";
     }
 
     @DeleteMapping("/bot/{id}")
-    public String deleteBot(@PathVariable int id, Model model) {
-        List<BotDTO> botList = BotDTOList.of(botFactory.deleteBot(id));
+    public String removeBot(@PathVariable int id, Model model) {
+        List<BotDTO> botList = BotDTOList.of(botFactory.removeBot(id));
         model.addAttribute("botList", botList);
         return "home";
     }

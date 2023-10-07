@@ -1,10 +1,8 @@
 package bitmexbot.repository;
 
-import bitmexbot.dto.BotDTO;
 import bitmexbot.entity.BitmexBot;
-import bitmexbot.exception.BotNotCreated;
-import bitmexbot.exception.BotNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,42 +15,39 @@ public class BotRepoService {
     }
 
 
-    public BotDTO findByBotId(int botId) {
-       return botRepo.findByBotId(botId)
-                .map(b -> new BotDTO().of(b)).orElse(null);
+    public BitmexBot findByBotId(int botId) {
+        return botRepo.findByBotId(botId).isPresent() ?
+                botRepo.findByBotId(botId).get() : new BitmexBot();
     }
 
-
-    public void deleteByBotId(int id) {
-        botRepo.deleteByBotId(id);
+    public BitmexBot findBotByBitmexOrder(String orderId) {
+        return botRepo.findBotByBitmexOrder(orderId).isPresent() ?
+                botRepo.findBotByBitmexOrder(orderId).get() : new BitmexBot();
     }
 
-
-    public BotDTO findBotByBitmexOrder(String orderId) {
-        return botRepo.findBotByBitmexOrder(orderId).map(b -> new BotDTO().of(b))
-                .orElseThrow(() -> new BotNotFoundException("Бот с ордером: " + orderId + "не найден"));
-    }
-
-
-    public List<BotDTO> findBotsWithOrders() {
-        return botRepo.findBotsWithOrders()
-                .map(botsWithOrders -> botsWithOrders.stream().map(b -> new BotDTO().of(b)).toList())
-                .orElseThrow(() -> new BotNotFoundException("Боты не найдены"));
+    public List<BitmexBot> findBotsWithOrders() {
+        return botRepo.findAllBotWithOrders();
     }
 
 
     public void updateBot(BitmexBot bitmexBot) {
-        botRepo.updateBot(bitmexBot);
-
+        botRepo.saveAndFlush(bitmexBot);
     }
 
-    public BotDTO createBot(BitmexBot bitmexBot) {
-        return botRepo.createBot(bitmexBot)
-                .map(b -> new BotDTO().of(b)).orElseThrow(() -> new BotNotCreated("Ошибка.Бот не создан в БД"));
+    public BitmexBot createBot(BitmexBot bitmexBot) {
+        return botRepo.save(bitmexBot);
     }
 
-    public List<BotDTO> findAll() {
-        List<BitmexBot> allBots = botRepo.findAll();
-        return allBots.stream().map(b -> new BotDTO().of(b)).toList();
+    public List<BitmexBot> findAll() {
+        return botRepo.findAll();
+    }
+
+    public List<BitmexBot> findAllBotWithOrders() {
+        return botRepo.findAllBotWithOrders();
+    }
+
+    @Transactional
+    public void removeByBotId(int botId) {
+       botRepo.removeByBotId(botId);
     }
 }

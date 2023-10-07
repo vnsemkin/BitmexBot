@@ -25,13 +25,13 @@ public class BotRepoTest {
 
     @Test
     @Transactional
-    public void shouldDeleteBot(){
+    public void shouldDeleteBot() {
         //GIVEN
         List<BitmexBot> expectedBotList = botRepo.findAll();
         BitmexBot bitmexBot = getBitmexBot();
         //WHEN
-        BitmexBot botFromDB = botRepo.createBot(bitmexBot).get();
-        botRepo.deleteByBotId(botFromDB.getBotId());
+        BitmexBot botFromDB = botRepo.save(bitmexBot);
+        botRepo.removeByBotId(botFromDB.getBotId());
         List<BitmexBot> actualBotList = botRepo.findAll();
         //THEN
         Assertions.assertEquals(botFromDB, bitmexBot);
@@ -56,7 +56,8 @@ public class BotRepoTest {
     }
 
     @Test
-    public void shouldCascadeDeleteBotByBotIdAndOrders(){
+    @Transactional
+    public void shouldCascadeDeleteBotByBotIdAndOrders() {
         //GIVEN
         BitmexBot bitmexBot = new BitmexBot();
         BitmexBotData bitmexBotData = new BitmexBotData();
@@ -69,8 +70,8 @@ public class BotRepoTest {
         bitmexBot.setBotId(1);
         bitmexBot.setBitmexBotData(bitmexBotData);
         //WHEN
-        BitmexBot actualBot = botRepo.createBot(bitmexBot).get();
-        botRepo.deleteByBotId(actualBot.getBotId());
+        BitmexBot actualBot = botRepo.save(bitmexBot);
+        botRepo.removeByBotId(actualBot.getBotId());
         //THEN
         Assertions.assertEquals(bitmexBot, actualBot);
         Assertions.assertThrows(NoSuchElementException.class

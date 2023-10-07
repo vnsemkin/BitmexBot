@@ -5,23 +5,26 @@ import bitmexbot.config.BitmexConstants;
 import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.entity.BitmexOrder;
-import bitmexbot.exception.BotNotCreated;
-import bitmexbot.exception.BotNotFoundException;
 import bitmexbot.model.APIAuthData;
 import bitmexbot.model.WSAuth;
 import bitmexbot.model.WSRequest;
 import bitmexbot.network.WebSocketHandler;
-import bitmexbot.repository.BotRepo;
+import bitmexbot.repository.BotRepoService;
 import bitmexbot.util.authorization.APIAuthDataService;
 import bitmexbot.util.json.JsonParser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+
+@Slf4j
 @Service
 public class BotFactory {
     @Value("${bitmex.websocket.url}")
@@ -29,40 +32,36 @@ public class BotFactory {
     private final OrderHandler orderHandler;
     private final JsonParser json;
     private final WebSocketHandler webSocketHandler;
-    private final BotRepo botRepo;
+    private final BotRepoService botRepoService;
 
     public BotFactory(OrderHandler orderHandler
             , JsonParser json
             , WebSocketHandler webSocketHandler
-            , BotRepo botRepo) {
+            , BotRepoService botRepoService) {
         this.orderHandler = orderHandler;
         this.json = json;
         this.webSocketHandler = webSocketHandler;
-        this.botRepo = botRepo;
+        this.botRepoService = botRepoService;
     }
 
     public List<BitmexBot> createNewBot(BitmexBotData bitmexBotData) {
-        List<BitmexBot> botList = botRepo.findAll();
+        List<BitmexBot> botList = botRepoService.findAll();
         if (botList.isEmpty()) {
             wsStart(bitmexBotData);
         }
-        return createNewBot(bitmexBotData, botList);
+        return startNewBot(bitmexBotData, botList);
+
     }
 
     @Logging(message = "Bot was deleted")
-    public List<BitmexBot> deleteBot(int id) {
-        Optional<BitmexBot> botById = botRepo.findByBotId(id);
-        if(botById.isPresent()) {
-            BitmexBot bitmexBot = botById.get();
-            orderHandler.delete(bitmexBot);
-            botRepo.deleteByBotId(id);
-            return botRepo.findBotsWithOrders()
-                    .orElseThrow(()-> new BotNotFoundException("Боты не найдены"));
-        }
-        return new ArrayList<>();
+    public List<BitmexBot> removeBot(int id) {
+        BitmexBot botById = botRepoService.findByBotId(id);
+        orderHandler.delete(botById);
+        botRepoService.removeByBotId(id);
+        return botRepoService.findAllBotWithOrders();
     }
 
-    private List<BitmexBot> createNewBot(BitmexBotData bitmexBotData
+    private List<BitmexBot> startNewBot(BitmexBotData bitmexBotData
             , List<BitmexBot> botList) {
         BitmexBot bitmexBot = new BitmexBot();
         Set<BitmexOrder> bitmexOrders = new HashSet<>();
@@ -70,11 +69,10 @@ public class BotFactory {
         bitmexBot.setBitmexBotData(bitmexBotData);
         bitmexBot.setBitmexOrders(bitmexOrders);
         //Put bot to DB
-        BitmexBot bot = botRepo.createBot(bitmexBot)
-                .orElseThrow(()->new BotNotCreated("Бот не создан"));
+        BitmexBot bot = botRepoService.createBot(bitmexBot);
         // Add bot to bot list
         startBot(bot);
-        return botRepo.findAll();
+        return botRepoService.findAll();
     }
 
     private int getBotId(List<BitmexBot> botList) {
@@ -107,7 +105,7 @@ public class BotFactory {
                     .writeToString(new WSRequest(command, List.of(BitmexConstants.ORDER)))));
             Thread.sleep(BitmexConstants.TIMEOUT_500);
         } catch (Exception e) {
-            e.getMessage();
+            log.info(e.getMessage());
         }
     }
 }
