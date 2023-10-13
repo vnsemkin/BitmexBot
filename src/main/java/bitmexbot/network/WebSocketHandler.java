@@ -4,8 +4,8 @@ import bitmexbot.config.BitmexConstants;
 import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexOrder;
 import bitmexbot.model.WSOrderStatus;
-import bitmexbot.repository.BotRepoService;
-import bitmexbot.repository.OrderRepoService;
+import bitmexbot.service.repo.BotService;
+import bitmexbot.service.repo.OrderRepoService;
 import bitmexbot.service.OrderHandler;
 import bitmexbot.util.json.JsonParser;
 import lombok.NonNull;
@@ -30,7 +30,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private WSOrderStatus wsOrderStatus;
     private final OrderHandler orderHandler;
     private WebSocketSession session;
-    private final BotRepoService botRepoService;
+    private final BotService botService;
     private final OrderRepoService orderRepoService;
     private boolean messageReceived;
     private final ThreadPoolTaskScheduler taskScheduler;
@@ -38,10 +38,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
     public WebSocketHandler(PingTaskScheduler taskScheduler,
                             JsonParser json
             , OrderHandler orderHandler
-            , BotRepoService botRepoService
+            , BotService botService
             , OrderRepoService orderRepoService) {
         this.taskScheduler = taskScheduler.getTaskScheduler();
-        this.botRepoService = botRepoService;
+        this.botService = botService;
         this.orderRepoService = orderRepoService;
         this.taskScheduler.initialize();
         this.json = json;
@@ -91,7 +91,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
                     String status = bitmexOrder.getOrdStatus();
                     String orderId = bitmexOrder.getOrderId();
                     BitmexOrder order = orderRepoService.findByOrderId(orderId);
-                    BitmexBot botByBitmexOrder = botRepoService.findBotByBitmexOrder(orderId);
+                    BitmexBot botByBitmexOrder = botService.findBotByBitmexOrder(orderId);
 
 
                     if (side.equalsIgnoreCase(BUY)
@@ -101,14 +101,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
                         // Put new order to Bot and save Bot to DB
                         BitmexOrder newbitmexOrder = orderHandler.sell(botByBitmexOrder, order);
                         botByBitmexOrder.getBitmexOrders().add(newbitmexOrder);
-                        botRepoService.updateBot(botByBitmexOrder);
+                        botService.updateBot(botByBitmexOrder);
                     } else if (side.equalsIgnoreCase(BitmexConstants.SELL)
                             && status.equalsIgnoreCase(BitmexConstants.FILLED)) {
                         order.setFilledPrice(bitmexOrder.getFilledPrice());
                         order.setOrdStatus(FILLED);
                         BitmexOrder newbitmexOrder = orderHandler.buy(botByBitmexOrder, order);
                         botByBitmexOrder.getBitmexOrders().add(newbitmexOrder);
-                        botRepoService.updateBot(botByBitmexOrder);
+                        botService.updateBot(botByBitmexOrder);
 
                     } else if (status.equalsIgnoreCase(BitmexConstants.CANCELED)) {
                         order.setOrdStatus(CANCELED);

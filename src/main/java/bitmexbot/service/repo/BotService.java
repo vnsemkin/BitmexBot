@@ -1,16 +1,17 @@
-package bitmexbot.repository;
+package bitmexbot.service.repo;
 
 import bitmexbot.entity.BitmexBot;
+import bitmexbot.repository.BotRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class BotRepoService {
+public class BotService {
     private final BotRepo botRepo;
 
-    public BotRepoService(BotRepo botRepo) {
+    public BotService(BotRepo botRepo) {
         this.botRepo = botRepo;
     }
 
@@ -38,6 +39,7 @@ public class BotRepoService {
         return botRepo.save(bitmexBot);
     }
 
+    @Transactional
     public List<BitmexBot> findAll() {
         return botRepo.findAll();
     }

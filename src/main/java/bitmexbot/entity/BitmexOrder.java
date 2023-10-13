@@ -20,7 +20,7 @@ public class BitmexOrder implements BitmexData {
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bot_id")
-    BitmexBot bitmexBot;
+    private BitmexBot bitmexBot;
     @JsonProperty("orderID")
     @Column(name = "order_id")
     private String orderId;

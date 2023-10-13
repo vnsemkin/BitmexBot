@@ -1,16 +1,15 @@
 package bitmexbot.controller;
 
 import bitmexbot.config.Strategy;
-import bitmexbot.dto.BotDTO;
-import bitmexbot.dto.BotDTOList;
-import bitmexbot.dto.UserBotParamDTO;
+import bitmexbot.dto.BotDto;
+import bitmexbot.dto.BotDtoList;
+import bitmexbot.model.UserBotParam;
 import bitmexbot.entity.BitmexBotData;
-import bitmexbot.repository.BotRepoService;
+import bitmexbot.service.repo.BotService;
 import bitmexbot.service.BotFactory;
 import bitmexbot.service.UserInfoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,23 +20,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Controller
-public class BotController {
+@org.springframework.stereotype.Controller
+public class Controller {
     private final UserInfoService userInfoService;
     private final BotFactory botFactory;
     @Value("${bitmex.token.key}")
     private String key;
     @Value("${bitmex.token.secret}")
     private String secret;
-    private final BotRepoService botRepoService;
+    private final BotService botService;
 
-    public BotController(UserInfoService userInfoService
+    public Controller(UserInfoService userInfoService
             , BotFactory botFactory
-            , BotRepoService botRepoService
+            , BotService botService
     ) {
         this.botFactory = botFactory;
         this.userInfoService = userInfoService;
-        this.botRepoService = botRepoService;
+        this.botService = botService;
     }
 
     @GetMapping("/")
@@ -47,7 +46,7 @@ public class BotController {
 
     @GetMapping("/bot")
     public String getBots(Model model) {
-        List<BotDTO> botList = BotDTOList.of(botRepoService.findAll());
+        List<BotDto> botList = BotDtoList.of(botService.findAll());
         List<String> strategies = new ArrayList<>(Arrays.stream(Strategy.values())
                 .map(Strategy::getLabel)
                 .toList());
@@ -58,17 +57,17 @@ public class BotController {
     }
 
     @PostMapping("/bot")
-    public String createBot(@Valid UserBotParamDTO userBotParamDTO
+    public String createBot(@Valid UserBotParam userBotParam
             , Model model) {
-        userBotParamDTO.setKey(key);
-        userBotParamDTO.setSecret(secret);
+        userBotParam.setKey(key);
+        userBotParam.setSecret(secret);
         //
-        List<BotDTO> botList;
+        List<BotDto> botList;
 
         // Set User info and order book last buy and sell prices
-        BitmexBotData bitmexBotData = userInfoService.getUserInfo(userBotParamDTO);
+        BitmexBotData bitmexBotData = userInfoService.getUserInfo(userBotParam);
         // Get bots if they are
-        botList = BotDTOList.of(botFactory
+        botList = BotDtoList.of(botFactory
                 .createNewBot(bitmexBotData));
 
         model.addAttribute("botList", botList);
@@ -77,7 +76,7 @@ public class BotController {
 
     @DeleteMapping("/bot/{id}")
     public String removeBot(@PathVariable int id, Model model) {
-        List<BotDTO> botList = BotDTOList.of(botFactory.removeBot(id));
+        List<BotDto> botList = BotDtoList.of(botFactory.removeBot(id));
         model.addAttribute("botList", botList);
         return "home";
     }

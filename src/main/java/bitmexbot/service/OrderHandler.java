@@ -8,8 +8,7 @@ import bitmexbot.entity.BitmexBotData;
 import bitmexbot.entity.BitmexOrder;
 import bitmexbot.model.APIAuthData;
 import bitmexbot.network.BitmexFeignClient;
-import bitmexbot.repository.BotRepo;
-import bitmexbot.repository.BotRepoService;
+import bitmexbot.service.repo.BotService;
 import bitmexbot.util.authorization.APIAuthDataService;
 import bitmexbot.util.json.JsonParser;
 import org.springframework.http.HttpMethod;
@@ -25,14 +24,14 @@ public class OrderHandler {
     private APIAuthData authData;
     private final JsonParser json;
     private final BitmexFeignClient bitmexFeignClient;
-    private final BotRepoService botRepoService;
+    private final BotService botService;
 
     public OrderHandler(BitmexFeignClient bitmexFeignClient
             , JsonParser json
-            , BotRepo botRepo, BotRepoService botRepoService) {
+            , BotService botService) {
         this.bitmexFeignClient = bitmexFeignClient;
         this.json = json;
-        this.botRepoService = botRepoService;
+        this.botService = botService;
     }
 
     @Logging(message = "Initial buy")
@@ -54,7 +53,7 @@ public class OrderHandler {
             response.setBitmexBot(bitmexBot);
             orders.add(response);
         }
-        botRepoService.updateBot(bitmexBot);
+        botService.updateBot(bitmexBot);
     }
 
     public BitmexOrder buy(BitmexBot bitmexBot

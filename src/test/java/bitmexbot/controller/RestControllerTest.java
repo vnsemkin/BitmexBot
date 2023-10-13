@@ -1,6 +1,6 @@
 package bitmexbot.controller;
 
-import bitmexbot.dto.BotDTO;
+import bitmexbot.dto.BotDto;
 import bitmexbot.network.FeignClientTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ public class RestControllerTest {
 
     @Test
     public void shouldReturnBotOnGet(){
-        ResponseEntity<List<BotDTO>> botRespEntity = feignClientTest.getBotList();
+        ResponseEntity<List<BotDto>> botRespEntity = feignClientTest.getBotList();
         Assertions.assertEquals(HttpStatus.OK, botRespEntity.getStatusCode());
     }
 }

@@ -5,11 +5,12 @@ import bitmexbot.config.BitmexConstants;
 import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.entity.BitmexOrder;
+import bitmexbot.exception.BotNotFoundException;
 import bitmexbot.model.APIAuthData;
 import bitmexbot.model.WSAuth;
 import bitmexbot.model.WSRequest;
 import bitmexbot.network.WebSocketHandler;
-import bitmexbot.repository.BotRepoService;
+import bitmexbot.service.repo.BotService;
 import bitmexbot.util.authorization.APIAuthDataService;
 import bitmexbot.util.json.JsonParser;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -32,20 +34,20 @@ public class BotFactory {
     private final OrderHandler orderHandler;
     private final JsonParser json;
     private final WebSocketHandler webSocketHandler;
-    private final BotRepoService botRepoService;
+    private final BotService botService;
 
     public BotFactory(OrderHandler orderHandler
             , JsonParser json
             , WebSocketHandler webSocketHandler
-            , BotRepoService botRepoService) {
+            , BotService botService) {
         this.orderHandler = orderHandler;
         this.json = json;
         this.webSocketHandler = webSocketHandler;
-        this.botRepoService = botRepoService;
+        this.botService = botService;
     }
 
     public List<BitmexBot> createNewBot(BitmexBotData bitmexBotData) {
-        List<BitmexBot> botList = botRepoService.findAll();
+        List<BitmexBot> botList = botService.findAll();
         if (botList.isEmpty()) {
             wsStart(bitmexBotData);
         }
@@ -55,10 +57,14 @@ public class BotFactory {
 
     @Logging(message = "Bot was deleted")
     public List<BitmexBot> removeBot(int id) {
-        BitmexBot botById = botRepoService.findByBotId(id);
-        orderHandler.delete(botById);
-        botRepoService.removeByBotId(id);
-        return botRepoService.findAllBotWithOrders();
+        BitmexBot byBotId = botService.findByBotId(id);
+        if (Objects.nonNull(byBotId.getId())) {
+            orderHandler.delete(byBotId);
+            botService.removeByBotId(id);
+        } else {
+            throw new BotNotFoundException("Bot with id: " + id + " not found");
+        }
+        return botService.findAllBotWithOrders();
     }
 
     private List<BitmexBot> startNewBot(BitmexBotData bitmexBotData
@@ -69,10 +75,10 @@ public class BotFactory {
         bitmexBot.setBitmexBotData(bitmexBotData);
         bitmexBot.setBitmexOrders(bitmexOrders);
         //Put bot to DB
-        BitmexBot bot = botRepoService.createBot(bitmexBot);
+        BitmexBot bot = botService.createBot(bitmexBot);
         // Add bot to bot list
         startBot(bot);
-        return botRepoService.findAll();
+        return botService.findAll();
     }
 
     private int getBotId(List<BitmexBot> botList) {

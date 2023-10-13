@@ -5,10 +5,10 @@ import bitmexbot.entity.BitmexBot;
 import java.util.List;
 
 
-public class BotDTOList {
-    public static List<BotDTO> of(List<BitmexBot> botList) {
+public class BotDtoList {
+    public static List<BotDto> of(List<BitmexBot> botList) {
         return botList.stream()
-                .map(b -> new BotDTO().of(b))
+                .map(BotDto::of)
                 .toList();
     }
 }

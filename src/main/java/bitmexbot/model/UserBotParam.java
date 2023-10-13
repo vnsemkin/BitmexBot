@@ -1,4 +1,4 @@
-package bitmexbot.dto;
+package bitmexbot.model;
 
 import bitmexbot.config.Strategy;
 import jakarta.validation.constraints.*;
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserBotParamDTO {
+public class UserBotParam {
     @NotBlank
     @NotNull
     private String key;

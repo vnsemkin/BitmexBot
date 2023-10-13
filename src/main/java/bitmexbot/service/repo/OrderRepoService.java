@@ -1,6 +1,7 @@
-package bitmexbot.repository;
+package bitmexbot.service.repo;
 
 import bitmexbot.entity.BitmexOrder;
+import bitmexbot.repository.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

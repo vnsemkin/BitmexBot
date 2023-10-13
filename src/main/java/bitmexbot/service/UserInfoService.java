@@ -3,7 +3,7 @@ package bitmexbot.service;
 
 import bitmexbot.config.BitmexConstants;
 import bitmexbot.config.BitmexEndpoints;
-import bitmexbot.dto.UserBotParamDTO;
+import bitmexbot.model.UserBotParam;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.model.*;
 import bitmexbot.network.BitmexFeignClient;
@@ -21,16 +21,16 @@ public class UserInfoService {
         this.bitmexFeignClient = bitmexFeignClient;
     }
 
-    public BitmexBotData getUserInfo(UserBotParamDTO userBotParamDTO) {
+    public BitmexBotData getUserInfo(UserBotParam userBotParam) {
         String emptyData = "";
         BitmexBotData bitmexBotData = new BitmexBotData();
         // Set data from userBotParam
-        bitmexBotData.setKey(userBotParamDTO.getKey());
-        bitmexBotData.setSecret(userBotParamDTO.getSecret());
-        bitmexBotData.setLevel(userBotParamDTO.getLevel());
-        bitmexBotData.setStep(userBotParamDTO.getStep());
-        bitmexBotData.setCoefficient(userBotParamDTO.getCoefficient());
-        bitmexBotData.setStrategy(userBotParamDTO.getStrategy());
+        bitmexBotData.setKey(userBotParam.getKey());
+        bitmexBotData.setSecret(userBotParam.getSecret());
+        bitmexBotData.setLevel(userBotParam.getLevel());
+        bitmexBotData.setStep(userBotParam.getStep());
+        bitmexBotData.setCoefficient(userBotParam.getCoefficient());
+        bitmexBotData.setStrategy(userBotParam.getStrategy());
         //
         APIAuthData authData = new APIAuthDataService()
                 .getAPIAutData(bitmexBotData, String.valueOf(HttpMethod.GET),

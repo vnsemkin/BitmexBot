@@ -22,6 +22,6 @@ public class BitmexBot {
     private BitmexBotData bitmexBotData;
     @JsonManagedReference
     @OneToMany(mappedBy = "bitmexBot", cascade = CascadeType.ALL
-            , orphanRemoval = true, fetch = FetchType.EAGER)
+            , orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<BitmexOrder> bitmexOrders;
 }

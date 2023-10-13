@@ -1,6 +1,6 @@
 package bitmexbot.network;
 
-import bitmexbot.dto.BotDTO;
+import bitmexbot.dto.BotDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,5 +11,5 @@ import java.util.List;
 public interface FeignClientTest {
 
     @GetMapping("/bot")
-    ResponseEntity<List<BotDTO>> getBotList();
+    ResponseEntity<List<BotDto>> getBotList();
 }

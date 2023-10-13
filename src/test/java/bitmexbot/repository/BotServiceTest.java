@@ -3,6 +3,7 @@ package bitmexbot.repository;
 import bitmexbot.entity.BitmexBot;
 import bitmexbot.entity.BitmexBotData;
 import bitmexbot.entity.BitmexOrder;
+import bitmexbot.service.repo.BotService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,17 +23,17 @@ import java.util.Set;
 @Sql("/script.sql")
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
-public class BotRepoServiceTest {
+public class BotServiceTest {
     @Autowired
-    BotRepoService botRepoService;
+    BotService botService;
 
     @SpyBean
-    private BotRepoService botRepoMock;
+    private BotService botRepoMock;
 
     @Test
     public void should_return_Bot_DTO_By_BotId() {
         Mockito.when(botRepoMock.findByBotId(1)).thenReturn(getBitmexBot());
-        BitmexBot botById = botRepoService.findByBotId(1);
+        BitmexBot botById = botService.findByBotId(1);
         Assertions.assertNotNull(botById);
         Mockito.verify(botRepoMock, Mockito.times(1)).findByBotId(1);
     }
