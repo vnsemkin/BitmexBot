@@ -1,6 +1,6 @@
 package bitmexbot.config;
 
-public class BitmexConstants {
+public class BotConstants {
     public static final String SUBSCRIBE = "subscribe";
     public static final String ORDER = "order";
     public static final String ORDER_BUY = "Buy";

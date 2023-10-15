@@ -15,7 +15,7 @@
 <div class="wrapper">
     <div class="text-bg-dark p-3">
         <div class="container">
-            <form method="post" action="http://localhost:8080/bot">
+            <form method="post" action="http://localhost:8080/botEntity">
                 <div class="mb-3">
                     <label for="key" class="form-label">Bitmex ключ</label>
                     <input type="text" class="form-control" id="key" placeholder="Input API key" name="key" required>
@@ -53,52 +53,52 @@
             </form>
         </div>
     </div>
-    <div th:each="bot : ${botList}" class="text-bg-dark p-3" style="position: relative;">
+    <div th:each="botEntity : ${botEntityList}" class="text-bg-dark p-3" style="position: relative;">
         <div style="text-align: center; color: white;">
             <h1 style="font-size: 1rem">Bot №<span
-                    th:text="${bot.getId()}"
+                    th:text="${botEntity.getId()}"
                     style="font-size: 22px; margin-bottom: 8px; margin-top: 8px;"></span> Started!</h1>
         </div>
         <div class="container wrap-btn" style="text-align: center; color: white;  margin-bottom: 40px">
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">API ключ: <span
-                    th:text="${bot.getBitmexBotData().getKey()}"
+                    th:text="${botEntity.getBitmexBotData().getKey()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Имя клиента: <span
-                    th:text="${bot.getBitmexBotData().getUserName()}"
+                    th:text="${botEntity.getBitmexBotData().getUserName()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Шаг цены ордеров: <span
-                    th:text="${bot.getBitmexBotData().getStep()}"
+                    th:text="${botEntity.getBitmexBotData().getStep()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Кол-во ордеров: <span
-                    th:text="${bot.getBitmexBotData().getLevel()}"
+                    th:text="${botEntity.getBitmexBotData().getLevel()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Валюта клиента: <span
-                    th:text="${bot.getBitmexBotData().getUserCurrency()}"
+                    th:text="${botEntity.getBitmexBotData().getUserCurrency()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Рыночная цена покупки: <span
-                    th:text="${bot.getBitmexBotData().getLastBuy()}"
+                    th:text="${botEntity.getBitmexBotData().getLastBuy()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             <h3 style="text-align: left; font-size: 18px; margin-bottom: 20px">Рыночная цена продажи: <span
-                    th:text="${bot.getBitmexBotData().getLastSell()}"
+                    th:text="${botEntity.getBitmexBotData().getLastSell()}"
                     style="font-size: 16px; margin-bottom: 8px; margin-top: 8px"></span></h3>
-            <div th:each="bitmexOrder : ${bot.getBitmexOrders()}" class="text-bg-dark orders">
+            <div th:each="botOrderEntity : ${botEntity.getBitmexOrders()}" class="text-bg-dark orders">
                 <h1 style="font-size: 1rem">Order placed:</h1>
                 <h3 style="text-align: left; font-size: 16px; margin-bottom: 20px">Order id : <span
-                        th:text="${bitmexOrder.getId()}"
+                        th:text="${botOrderEntity.getId()}"
                         style="font-size: 14px; margin-bottom: 8px; margin-top: 8px"></span></h3>
                 <h3 style="text-align: left; font-size: 16px; margin-bottom: 20px">Order price : <span
-                        th:text="${bitmexOrder.getPrice()}"
+                        th:text="${botOrderEntity.getPrice()}"
                         style="font-size: 14px; margin-bottom: 8px; margin-top: 8px"></span></h3>
             </div>
         </div>
         <div style="display: flex; justify-content: space-between">
-            <form id="deleteBotForm" method="post" action="http://localhost:8080/bot/{id}">
-                <input type="hidden" id="botIdInput" name="id" th:value="${bot.getId()}">
+            <form id="deleteBotForm" method="post" action="http://localhost:8080/botEntity/{id}">
+                <input type="hidden" id="botIdInput" name="id" th:value="${botEntity.getId()}">
                 <button style="display: inline-block; margin-right: 10px" class="btn btn-danger btn-stop"
                         type="button" onclick="deleteBot()">Удалить бота
                 </button>
             </form>
-            <form method="get" action="http://localhost:8080/bot">
+            <form method="get" action="http://localhost:8080/botEntity">
                 <button style="display: inline-block; margin-right: 10px" class="btn btn-primary btn-refresh"
                         type="submit">Обновить ордера
                 </button>
@@ -112,7 +112,7 @@
 <script>
     function deleteBot() {
         const botId = document.getElementById("botIdInput").value;
-        fetch("http://localhost:8080/bot/" + botId, {
+        fetch("http://localhost:8080/botEntity/" + botId, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
@@ -120,7 +120,7 @@
         })
             .then(function (response) {
                 if (response.ok) {
-                    // Handle success, e.g., remove the deleted bot from the UI
+                    // Handle success, e.g., remove the deleted botEntity from the UI
                     // You can also perform a page reload or redirect here
                 } else {
                     // Handle error, e.g., display an error message

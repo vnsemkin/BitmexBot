@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "bots_data")
-public class BitmexBotData {
+public class BotDataEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @Column(name = "bitmex_key")
     private String key;
     @Column(name = "bitmex_secret")

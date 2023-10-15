@@ -1,24 +1,24 @@
 package bitmexbot.repository;
 
-import bitmexbot.entity.BitmexBot;
+import bitmexbot.entity.BotEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface BotRepo extends JpaRepository<BitmexBot, Long> {
+public interface BotRepo extends JpaRepository<BotEntity, Long> {
 
-    Optional<BitmexBot> findByBotId(int botId);
+    Optional<BotEntity> findByBotId(int botId);
 
     void removeByBotId(int id);
 
-    @Query("SELECT b FROM BitmexBot b " +
-            "JOIN b.bitmexBotData bd " +
-            "JOIN b.bitmexOrders bo " +
+    @Query("SELECT b FROM BotEntity b " +
+            "JOIN b.botDataEntity bd " +
+            "JOIN b.botOrderEntities bo " +
             "WHERE bo.orderId = :orderId")
-    Optional<BitmexBot> findBotByBitmexOrder(String orderId);
+    Optional<BotEntity> findBotByBotOrder(String orderId);
 
-    @Query("SELECT b FROM BitmexBot b LEFT JOIN FETCH b.bitmexOrders")
-    List<BitmexBot> findAllBotWithOrders();
+    @Query("SELECT b FROM BotEntity b LEFT JOIN FETCH b.botOrderEntities")
+    List<BotEntity> findAllBotWithOrders();
 }

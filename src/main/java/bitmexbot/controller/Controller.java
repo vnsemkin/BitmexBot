@@ -2,10 +2,10 @@ package bitmexbot.controller;
 
 import bitmexbot.config.Strategy;
 import bitmexbot.dto.BotDto;
-import bitmexbot.dto.BotDtoList;
+import bitmexbot.dto.mapper.BotMapper;
 import bitmexbot.model.UserBotParam;
-import bitmexbot.entity.BitmexBotData;
-import bitmexbot.service.repo.BotService;
+import bitmexbot.entity.BotDataEntity;
+import bitmexbot.service.repo.BotRepoService;
 import bitmexbot.service.BotFactory;
 import bitmexbot.service.UserInfoService;
 import jakarta.validation.Valid;
@@ -28,15 +28,17 @@ public class Controller {
     private String key;
     @Value("${bitmex.token.secret}")
     private String secret;
-    private final BotService botService;
+    private final BotRepoService botRepoService;
+    private final BotMapper botMapper;
 
     public Controller(UserInfoService userInfoService
             , BotFactory botFactory
-            , BotService botService
-    ) {
+            , BotRepoService botRepoService,
+                      BotMapper botMapper) {
         this.botFactory = botFactory;
         this.userInfoService = userInfoService;
-        this.botService = botService;
+        this.botRepoService = botRepoService;
+        this.botMapper = botMapper;
     }
 
     @GetMapping("/")
@@ -46,7 +48,7 @@ public class Controller {
 
     @GetMapping("/bot")
     public String getBots(Model model) {
-        List<BotDto> botList = BotDtoList.of(botService.findAll());
+        List<BotDto> botList = botMapper.toDtoList(botRepoService.findAll());
         List<String> strategies = new ArrayList<>(Arrays.stream(Strategy.values())
                 .map(Strategy::getLabel)
                 .toList());
@@ -65,10 +67,10 @@ public class Controller {
         List<BotDto> botList;
 
         // Set User info and order book last buy and sell prices
-        BitmexBotData bitmexBotData = userInfoService.getUserInfo(userBotParam);
+        BotDataEntity botDataEntity = userInfoService.getUserInfo(userBotParam);
         // Get bots if they are
-        botList = BotDtoList.of(botFactory
-                .createNewBot(bitmexBotData));
+        botList = botMapper.toDtoList(botFactory
+                .createNewBot(botDataEntity));
 
         model.addAttribute("botList", botList);
         return "home";
@@ -76,7 +78,7 @@ public class Controller {
 
     @DeleteMapping("/bot/{id}")
     public String removeBot(@PathVariable int id, Model model) {
-        List<BotDto> botList = BotDtoList.of(botFactory.removeBot(id));
+        List<BotDto> botList = botMapper.toDtoList(botFactory.removeBot(id));
         model.addAttribute("botList", botList);
         return "home";
     }

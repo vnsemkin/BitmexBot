@@ -13,14 +13,14 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @Table(name = "orders")
-public class BitmexOrder implements BitmexData {
+public class BotOrderEntity implements BitmexData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "bot_id")
-    private BitmexBot bitmexBot;
+    private BotEntity botEntity;
     @JsonProperty("orderID")
     @Column(name = "order_id")
     private String orderId;

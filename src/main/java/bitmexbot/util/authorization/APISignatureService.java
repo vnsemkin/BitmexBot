@@ -1,6 +1,6 @@
 package bitmexbot.util.authorization;
 
-import bitmexbot.config.BitmexConstants;
+import bitmexbot.config.BotConstants;
 import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.apache.commons.codec.digest.HmacUtils;
 
@@ -10,7 +10,7 @@ public class APISignatureService {
     }
 
     public String getAPISignatureForWS(String apiSecret, long expires) {
-        return hmacWithApacheCommons(BitmexConstants.GET_REAL_TIME + expires, apiSecret);
+        return hmacWithApacheCommons(BotConstants.GET_REAL_TIME + expires, apiSecret);
     }
 
     private static String hmacWithApacheCommons(String data, String key) {

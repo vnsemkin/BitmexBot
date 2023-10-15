@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BotDtoData {
+public class BotDataDto {
     private String userName;
     private String userEmail;
     private int userAccount;

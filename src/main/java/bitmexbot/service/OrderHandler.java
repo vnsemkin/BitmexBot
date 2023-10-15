@@ -1,14 +1,14 @@
 package bitmexbot.service;
 
 import bitmexbot.aspect.Logging;
-import bitmexbot.config.BitmexConstants;
-import bitmexbot.config.BitmexEndpoints;
-import bitmexbot.entity.BitmexBot;
-import bitmexbot.entity.BitmexBotData;
-import bitmexbot.entity.BitmexOrder;
+import bitmexbot.config.BotConstants;
+import bitmexbot.config.BotEndpoints;
+import bitmexbot.entity.BotEntity;
+import bitmexbot.entity.BotDataEntity;
+import bitmexbot.entity.BotOrderEntity;
 import bitmexbot.model.APIAuthData;
-import bitmexbot.network.BitmexFeignClient;
-import bitmexbot.service.repo.BotService;
+import bitmexbot.network.FeignClient;
+import bitmexbot.service.repo.BotRepoService;
 import bitmexbot.util.authorization.APIAuthDataService;
 import bitmexbot.util.json.JsonParser;
 import org.springframework.http.HttpMethod;
@@ -23,87 +23,87 @@ import java.util.stream.Collectors;
 public class OrderHandler {
     private APIAuthData authData;
     private final JsonParser json;
-    private final BitmexFeignClient bitmexFeignClient;
-    private final BotService botService;
+    private final FeignClient feignClient;
+    private final BotRepoService botRepoService;
 
-    public OrderHandler(BitmexFeignClient bitmexFeignClient
+    public OrderHandler(FeignClient feignClient
             , JsonParser json
-            , BotService botService) {
-        this.bitmexFeignClient = bitmexFeignClient;
+            , BotRepoService botRepoService) {
+        this.feignClient = feignClient;
         this.json = json;
-        this.botService = botService;
+        this.botRepoService = botRepoService;
     }
 
     @Logging(message = "Initial buy")
-    public void initialBuy(BitmexBot bitmexBot) {
-        Set<BitmexOrder> orders = bitmexBot.getBitmexOrders();
-        BitmexBotData bitmexBotData = bitmexBot.getBitmexBotData();
-        for (int i = 1; i < bitmexBotData.getLevel() + 1; i++) {
-            BitmexOrder bitmexOrder = new BitmexOrder();
-            bitmexOrder.setSymbol(BitmexConstants.XBT_USDT_SYMBOL);
-            bitmexOrder.setSide(BitmexConstants.ORDER_BUY);
-            bitmexOrder.setPrice(bitmexBotData.getLastBuy() - bitmexBotData.getStep() * i);
-            bitmexOrder.setOrderQty(bitmexBotData.getCoefficient());
+    public void initialBuy(BotEntity botEntity) {
+        Set<BotOrderEntity> orders = botEntity.getBotOrderEntities();
+        BotDataEntity botDataEntity = botEntity.getBotDataEntity();
+        for (int i = 1; i < botDataEntity.getLevel() + 1; i++) {
+            BotOrderEntity botOrderEntity = new BotOrderEntity();
+            botOrderEntity.setSymbol(BotConstants.XBT_USDT_SYMBOL);
+            botOrderEntity.setSide(BotConstants.ORDER_BUY);
+            botOrderEntity.setPrice(botDataEntity.getLastBuy() - botDataEntity.getStep() * i);
+            botOrderEntity.setOrderQty(botDataEntity.getCoefficient());
             authData = new APIAuthDataService()
-                    .getAPIAutData(bitmexBotData, String.valueOf(HttpMethod.POST), BitmexEndpoints.ORDER,
-                            json.writeToString(bitmexOrder));
-            BitmexOrder response = bitmexFeignClient.postOrder(String.valueOf(authData.getApiExpires())
+                    .getAPIAutData(botDataEntity, String.valueOf(HttpMethod.POST), BotEndpoints.ORDER,
+                            json.writeToString(botOrderEntity));
+            BotOrderEntity response = feignClient.postOrder(String.valueOf(authData.getApiExpires())
                     , authData.getApiKey(),
-                    authData.getApiSignature(), bitmexOrder);
-            response.setBitmexBot(bitmexBot);
+                    authData.getApiSignature(), botOrderEntity);
+            response.setBotEntity(botEntity);
             orders.add(response);
         }
-        botService.updateBot(bitmexBot);
+        botRepoService.updateBot(botEntity);
     }
 
-    public BitmexOrder buy(BitmexBot bitmexBot
-            , BitmexOrder bitmexOrder) {
-        BitmexBotData bitmexBotData = bitmexBot.getBitmexBotData();
+    public BotOrderEntity buy(BotEntity botEntity
+            , BotOrderEntity botOrderEntity) {
+        BotDataEntity botDataEntity = botEntity.getBotDataEntity();
 
-        BitmexOrder newOrder = new BitmexOrder();
-        newOrder.setSymbol(BitmexConstants.XBT_USDT_SYMBOL);
-        newOrder.setSide(BitmexConstants.ORDER_BUY);
-        newOrder.setPrice(bitmexOrder.getFilledPrice() - bitmexBotData.getStep());
-        newOrder.setOrderQty(bitmexBotData.getCoefficient());
+        BotOrderEntity newOrder = new BotOrderEntity();
+        newOrder.setSymbol(BotConstants.XBT_USDT_SYMBOL);
+        newOrder.setSide(BotConstants.ORDER_BUY);
+        newOrder.setPrice(botOrderEntity.getFilledPrice() - botDataEntity.getStep());
+        newOrder.setOrderQty(botDataEntity.getCoefficient());
         authData = new APIAuthDataService()
-                .getAPIAutData(bitmexBotData, String.valueOf(HttpMethod.POST), BitmexEndpoints.ORDER,
-                        json.writeToString(bitmexOrder));
-        return bitmexFeignClient.postOrder(String.valueOf(authData.getApiExpires())
+                .getAPIAutData(botDataEntity, String.valueOf(HttpMethod.POST), BotEndpoints.ORDER,
+                        json.writeToString(botOrderEntity));
+        return feignClient.postOrder(String.valueOf(authData.getApiExpires())
                 , authData.getApiKey(),
-                authData.getApiSignature(), bitmexOrder);
+                authData.getApiSignature(), botOrderEntity);
     }
 
-    public void delete(BitmexBot bitmexBot) {
-        BitmexBotData bitmexBotData = bitmexBot.getBitmexBotData();
-        String name = BitmexConstants.ORDER_ID;
-        Set<String> idSet = bitmexBot.getBitmexOrders()
+    public void delete(BotEntity botEntity) {
+        BotDataEntity botDataEntity = botEntity.getBotDataEntity();
+        String name = BotConstants.ORDER_ID;
+        Set<String> idSet = botEntity.getBotOrderEntities()
                 .stream()
-                .map(BitmexOrder::getOrderId)
+                .map(BotOrderEntity::getOrderId)
                 .collect(Collectors
                         .toSet());
         Map<String, Set<String>> map = new HashMap<>();
         map.put(name, idSet);
         authData = new APIAuthDataService()
-                .getAPIAutData(bitmexBotData, String.valueOf(HttpMethod.DELETE), BitmexEndpoints.ORDER,
+                .getAPIAutData(botDataEntity, String.valueOf(HttpMethod.DELETE), BotEndpoints.ORDER,
                         json.writeToString(map));
-        bitmexFeignClient.deleteOrder(String.valueOf(authData.getApiExpires())
+        feignClient.deleteOrder(String.valueOf(authData.getApiExpires())
                 , authData.getApiKey(),
                 authData.getApiSignature(), map);
     }
 
-    public BitmexOrder sell(BitmexBot bitmexBot
-            , BitmexOrder bitmexOrder) {
-        BitmexBotData bitmexBotData = bitmexBot.getBitmexBotData();
-        BitmexOrder order = new BitmexOrder();
-        order.setSymbol(BitmexConstants.XBT_USDT_SYMBOL);
-        order.setSide(BitmexConstants.ORDER_SELL);
-        order.setPrice(bitmexOrder.getFilledPrice() + bitmexBotData.getStep());
-        order.setOrderQty(bitmexBotData.getCoefficient());
+    public BotOrderEntity sell(BotEntity botEntity
+            , BotOrderEntity botOrderEntity) {
+        BotDataEntity botDataEntity = botEntity.getBotDataEntity();
+        BotOrderEntity order = new BotOrderEntity();
+        order.setSymbol(BotConstants.XBT_USDT_SYMBOL);
+        order.setSide(BotConstants.ORDER_SELL);
+        order.setPrice(botOrderEntity.getFilledPrice() + botDataEntity.getStep());
+        order.setOrderQty(botDataEntity.getCoefficient());
         authData = new APIAuthDataService()
-                .getAPIAutData(bitmexBotData, String.valueOf(HttpMethod.POST), BitmexEndpoints.ORDER,
-                        json.writeToString(bitmexOrder));
-        return bitmexFeignClient.postOrder(String.valueOf(authData.getApiExpires())
+                .getAPIAutData(botDataEntity, String.valueOf(HttpMethod.POST), BotEndpoints.ORDER,
+                        json.writeToString(botOrderEntity));
+        return feignClient.postOrder(String.valueOf(authData.getApiExpires())
                 , authData.getApiKey(),
-                authData.getApiSignature(), bitmexOrder);
+                authData.getApiSignature(), botOrderEntity);
     }
 }

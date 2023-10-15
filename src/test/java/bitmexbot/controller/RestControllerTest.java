@@ -13,7 +13,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
-@Sql("/script.sql")
+@Sql("/populate_db.sql")
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class RestControllerTest {

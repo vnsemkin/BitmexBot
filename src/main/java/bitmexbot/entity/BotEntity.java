@@ -11,7 +11,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "bots")
-public class BitmexBot {
+public class BotEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,9 +19,9 @@ public class BitmexBot {
     private int botId;
     @OneToOne(cascade = CascadeType.ALL
             , orphanRemoval = true, fetch = FetchType.EAGER)
-    private BitmexBotData bitmexBotData;
+    private BotDataEntity botDataEntity;
     @JsonManagedReference
-    @OneToMany(mappedBy = "bitmexBot", cascade = CascadeType.ALL
+    @OneToMany(mappedBy = "botEntity", cascade = CascadeType.ALL
             , orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<BitmexOrder> bitmexOrders;
+    private Set<BotOrderEntity> botOrderEntities;
 }

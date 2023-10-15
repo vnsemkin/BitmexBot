@@ -1,6 +1,6 @@
 package bitmexbot.config;
 
-public class BitmexEndpoints {
+public class BotEndpoints {
     public static final String USER = "/api/v1/user";
     public static final String USER_WALLET = "/api/v1/user/wallet";
     public static final String ORDER = "/api/v1/order";

@@ -1,10 +1,10 @@
 package bitmexbot.network;
 
-import bitmexbot.config.BitmexConstants;
-import bitmexbot.entity.BitmexBot;
-import bitmexbot.entity.BitmexOrder;
+import bitmexbot.config.BotConstants;
+import bitmexbot.entity.BotEntity;
+import bitmexbot.entity.BotOrderEntity;
 import bitmexbot.model.WSOrderStatus;
-import bitmexbot.service.repo.BotService;
+import bitmexbot.service.repo.BotRepoService;
 import bitmexbot.service.repo.OrderRepoService;
 import bitmexbot.service.OrderHandler;
 import bitmexbot.util.json.JsonParser;
@@ -20,7 +20,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.io.IOException;
 import java.util.Objects;
 
-import static bitmexbot.config.BitmexConstants.*;
+import static bitmexbot.config.BotConstants.*;
 
 @Service
 @Slf4j
@@ -30,7 +30,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private WSOrderStatus wsOrderStatus;
     private final OrderHandler orderHandler;
     private WebSocketSession session;
-    private final BotService botService;
+    private final BotRepoService botRepoService;
     private final OrderRepoService orderRepoService;
     private boolean messageReceived;
     private final ThreadPoolTaskScheduler taskScheduler;
@@ -38,10 +38,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
     public WebSocketHandler(PingTaskScheduler taskScheduler,
                             JsonParser json
             , OrderHandler orderHandler
-            , BotService botService
+            , BotRepoService botRepoService
             , OrderRepoService orderRepoService) {
         this.taskScheduler = taskScheduler.getTaskScheduler();
-        this.botService = botService;
+        this.botRepoService = botRepoService;
         this.orderRepoService = orderRepoService;
         this.taskScheduler.initialize();
         this.json = json;
@@ -79,38 +79,38 @@ public class WebSocketHandler extends TextWebSocketHandler {
             onMessagePingDelay();
             wsOrderStatus = (WSOrderStatus) json.readToObject(String.valueOf(message), WSOrderStatus.class);
             if (!Objects.equals(wsOrderStatus.getAction(), PARTIAL)) {
-                wsOrderStatus.getBitmexOrder().forEach(ord -> log.info(wsOrderStatus.getAction()
+                wsOrderStatus.getBotOrderEntity().forEach(ord -> log.info(wsOrderStatus.getAction()
                         + ": Side " + ord.getSide()
                         + ", Status " + ord.getOrdStatus()
                         + ", id: " + ord.getId()
                         + ", price" + ord.getPrice()));
-                for (int i = 0; i < wsOrderStatus.getBitmexOrder().size(); i++) {
+                for (int i = 0; i < wsOrderStatus.getBotOrderEntity().size(); i++) {
                     // Get Filled Buy order
-                    BitmexOrder bitmexOrder = wsOrderStatus.getBitmexOrder().get(i);
-                    String side = bitmexOrder.getSide();
-                    String status = bitmexOrder.getOrdStatus();
-                    String orderId = bitmexOrder.getOrderId();
-                    BitmexOrder order = orderRepoService.findByOrderId(orderId);
-                    BitmexBot botByBitmexOrder = botService.findBotByBitmexOrder(orderId);
+                    BotOrderEntity botOrderEntity = wsOrderStatus.getBotOrderEntity().get(i);
+                    String side = botOrderEntity.getSide();
+                    String status = botOrderEntity.getOrdStatus();
+                    String orderId = botOrderEntity.getOrderId();
+                    BotOrderEntity order = orderRepoService.findByOrderId(orderId);
+                    BotEntity botEntityByBitmexOrder = botRepoService.findBotByBitmexOrder(orderId);
 
 
                     if (side.equalsIgnoreCase(BUY)
                             && status.equalsIgnoreCase(FILLED)) {
-                        order.setFilledPrice(bitmexOrder.getFilledPrice());
+                        order.setFilledPrice(botOrderEntity.getFilledPrice());
                         order.setOrdStatus(FILLED);
                         // Put new order to Bot and save Bot to DB
-                        BitmexOrder newbitmexOrder = orderHandler.sell(botByBitmexOrder, order);
-                        botByBitmexOrder.getBitmexOrders().add(newbitmexOrder);
-                        botService.updateBot(botByBitmexOrder);
-                    } else if (side.equalsIgnoreCase(BitmexConstants.SELL)
-                            && status.equalsIgnoreCase(BitmexConstants.FILLED)) {
-                        order.setFilledPrice(bitmexOrder.getFilledPrice());
+                        BotOrderEntity newbitmexOrder = orderHandler.sell(botEntityByBitmexOrder, order);
+                        botEntityByBitmexOrder.getBotOrderEntities().add(newbitmexOrder);
+                        botRepoService.updateBot(botEntityByBitmexOrder);
+                    } else if (side.equalsIgnoreCase(BotConstants.SELL)
+                            && status.equalsIgnoreCase(BotConstants.FILLED)) {
+                        order.setFilledPrice(botOrderEntity.getFilledPrice());
                         order.setOrdStatus(FILLED);
-                        BitmexOrder newbitmexOrder = orderHandler.buy(botByBitmexOrder, order);
-                        botByBitmexOrder.getBitmexOrders().add(newbitmexOrder);
-                        botService.updateBot(botByBitmexOrder);
+                        BotOrderEntity newbitmexOrder = orderHandler.buy(botEntityByBitmexOrder, order);
+                        botEntityByBitmexOrder.getBotOrderEntities().add(newbitmexOrder);
+                        botRepoService.updateBot(botEntityByBitmexOrder);
 
-                    } else if (status.equalsIgnoreCase(BitmexConstants.CANCELED)) {
+                    } else if (status.equalsIgnoreCase(BotConstants.CANCELED)) {
                         order.setOrdStatus(CANCELED);
                     }
                 }
@@ -120,13 +120,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
     }
 
     private boolean isMessagePong() {
-        return message.toString().contentEquals(BitmexConstants.PONG);
+        return message.toString().contentEquals(BotConstants.PONG);
     }
 
     private void sendPingMessage() {
         if (session != null && !messageReceived) {
             try {
-                session.sendMessage(new TextMessage(BitmexConstants.PING));
+                session.sendMessage(new TextMessage(BotConstants.PING));
             } catch (IOException e) {
                 log.info(e.getMessage());
             }

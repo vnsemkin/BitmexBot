@@ -1,6 +1,6 @@
 package bitmexbot.model;
 
-import bitmexbot.entity.BitmexOrder;
+import bitmexbot.entity.BotOrderEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +13,5 @@ public class WSOrderStatus implements BitmexData {
     @JsonProperty("action")
     private String action;
     @JsonProperty("data")
-    private List<BitmexOrder> bitmexOrder;
+    private List<BotOrderEntity> botOrderEntity;
 }
